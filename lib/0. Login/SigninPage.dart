@@ -93,6 +93,7 @@ class _SigninPageState extends State<SigninPage> {
                   Theme(
                     data: Theme.of(context).copyWith(splashColor: Colors.transparent),
                     child: TextField(
+                      obscureText: true,
                       autofocus: false,
                       controller: passwordValue,
                       style: TextStyle(fontSize: 22.0, color: Color(0xFFbdc6cf)),

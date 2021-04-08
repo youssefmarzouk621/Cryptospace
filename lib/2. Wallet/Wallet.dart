@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_universe/Controllers/TransactionController.dart';
 import 'package:http/http.dart';
 
 import '../staticdata/constants.dart';
@@ -12,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 var myaccount;
 String balance;
@@ -21,7 +23,7 @@ class Wallet extends StatefulWidget {
   _WalletdetailsState createState() => _WalletdetailsState();
 }
 class _WalletdetailsState extends State<Wallet> {
-
+  final TransactionController transactionController = TransactionController();
   int touchedIndex;
   List data;
 
@@ -177,29 +179,38 @@ class _WalletdetailsState extends State<Wallet> {
 
                     Column(
                         children: [
-                        Column(
-                          children: List.generate(
-                            Constants.titleList.length,
-                                (index) {
-                              return new GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, a, b) => Coindetails(),
+                          Container(
+                            child: FutureBuilder(
+                              future: transactionController.getBalance(myaccount),
+                              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                if(snapshot.data == null){
+                                  return Container(
+                                      child: Center(
+                                          child: SpinKitDoubleBounce(
+                                            color: Colors.white,
+                                            size: 50.0,
+                                          )
+                                      )
+                                  );
+                                }else{
+                                  return Column(
+                                    children:
+                                    List.generate(
+                                      snapshot.data == null ? 0 : 1,
+                                          (index) {
+                                        return TransactionListWidget(
+                                          icon: Constants.iconList[index],
+                                          titleTxt: "Vault",
+                                          subtitleTxt: "",
+                                          amount: snapshot.data,
+                                        );
+                                      },
                                     ),
                                   );
-                                },
-                                child: TransactionListWidget(
-                                  icon: Constants.iconList[index],
-                                  titleTxt: "Vault",
-                                  subtitleTxt: "",
-                                  amount: balance,
-                                ),
-                              );
-                            },
+                                }
+                              },
+                            ),
                           ),
-                        ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -225,25 +236,44 @@ class _WalletdetailsState extends State<Wallet> {
                         SizedBox(
                           height: 20,
                         ),
-                        Column(
-                          children: List.generate(
-                              data == null ? 0 : data.length,
-                                (index) {
-                              return TransactionListWidget(
-                                icon: data[index]["from"] == myaccount ? Icon(
-                                  Icons.arrow_upward_rounded,
-                                  color: ColorConstants.kwhiteColor,
-                                ) : Icon(
-                                  Icons.arrow_downward_rounded,
-                                  color: ColorConstants.kwhiteColor,
-                                ),
-                                titleTxt: data[index]["from"] == myaccount ? "Transfered" : "Received",
-                                subtitleTxt:  data[index]["to"],
-                                amount:  data[index]["tokens"],
-                              );
+                        Container(
+                          child: FutureBuilder(
+                            future: transactionController.getTransactions(myaccount),
+                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                              if(snapshot.data == null){
+                                return Container(
+                                    child: Center(
+                                        child: SpinKitDoubleBounce(
+                                          color: Colors.white,
+                                          size: 50.0,
+                                        )
+                                    )
+                                );
+                              }else{
+                                return Column(
+                                  children:
+                                    List.generate(
+                                      snapshot.data == null ? 0 : snapshot.data.length,
+                                          (index) {
+                                        return TransactionListWidget(
+                                          icon: snapshot.data[index].from == myaccount ? Icon(
+                                            Icons.arrow_upward_rounded,
+                                            color: ColorConstants.kwhiteColor,
+                                          ) : Icon(
+                                            Icons.arrow_downward_rounded,
+                                            color: ColorConstants.kwhiteColor,
+                                          ),
+                                          titleTxt: snapshot.data[index].from == myaccount ? "Transfered" : "Received",
+                                          subtitleTxt:  snapshot.data[index].to,
+                                          amount:  snapshot.data[index].tokens,
+                                        );
+                                      },
+                                    ),
+                                );
+                              }
                             },
                           ),
-                        ),
+                        )
                       ]
 
                     ),
