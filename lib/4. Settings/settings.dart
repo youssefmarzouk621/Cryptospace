@@ -1,11 +1,18 @@
+import 'package:flutter_universe/Storage/database_helper.dart';
+
 import '../staticdata/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({Key key}) : super(key: key);
 
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -48,6 +55,36 @@ class Settings extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
+
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: FlatButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    height: MediaQuery.of(context).size.height/11.0,
+
+                    // splashColor: Colors.red,
+                    color: const Color.fromRGBO(65, 45, 135, 0.7),
+                    // textColor: Colors.white,
+                    child: Text('Sign In',
+                        style: TextStyle( fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w300,
+                          color: const Color(0xFFffffff),
+                          fontSize: 19,)
+                    ),
+                    onPressed: () async {
+                        int id = await DatabaseHelper.instance.insert({
+                          '_id' :'123456',
+                          'firstName' :'youssef',
+                          'lastName' :'marzouk',
+                          'email' :'youssef@gmail.com',
+                          'password' :'1234',
+                          'phone': '90057620'
+                        });
+                        print("inserted id: $id");
+                    },
+                  )
+                ),
 
 
                   ],

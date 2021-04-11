@@ -31,9 +31,8 @@ class TransactionController {
   }
 
   Future<String> getBalance(myaccount) async{
-    var url = "http://10.0.2.2:3000/api/token/getBalance";
     final response = await post(
-      url,
+      Uri.http(baseURL,"api/token/getBalance"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -48,9 +47,8 @@ class TransactionController {
 
   Future <List<HistoryTransaction>>getTransactions(myaccount) async{
 
-    var url = "http://10.0.2.2:3000/api/token/history";
     final response = await post(
-      url,
+      Uri.http(baseURL,"api/token/history"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

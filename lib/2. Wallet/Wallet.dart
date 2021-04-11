@@ -28,55 +28,13 @@ class _WalletdetailsState extends State<Wallet> {
   List data;
 
 
-  getTransactions(myaccount) async{
 
-    var url = "http://10.0.2.2:3000/api/token/history";
-
-    final response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'account': myaccount,
-      }),
-    );
-
-    print(response.body);
-    this.setState(() {
-      data = json.decode(response.body);
-    });
-
-  }
-
-  getBalance(myaccount) async{
-
-    var url = "http://10.0.2.2:3000/api/token/getBalance";
-
-    final response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'account': myaccount,
-      }),
-    );
-
-    print(response.body);
-    var parse;
-    parse = jsonDecode(response.body);
-    balance = parse["balance"];
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    myaccount="0xac5342d80471B1fC46E22c691B09dCDd19bE061A";
-    getBalance("0xac5342d80471B1fC46E22c691B09dCDd19bE061A");
-    getTransactions(myaccount);
-
+    myaccount="0x4C57BB2339180fD73Ebbcc47425A694827Da70D6";
   }
   @override
   Widget build(BuildContext context) {

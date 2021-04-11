@@ -244,6 +244,7 @@ class _CoindetailsState extends State<Coindetails> {
                         highlightedBorderColor: const Color(0xffffffff),
                         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                         onPressed: () => {
+
                           Navigator.push(
                             context,
                             PageRouteBuilder(

@@ -33,14 +33,6 @@ class Constants {
       Icons.arrow_upward_rounded,
       color: ColorConstants.kwhiteColor,
     ),
-    // Icon(
-    //   Icons.arrow_downward_rounded,
-    //   color: ColorConstants.kwhiteColor,
-    // ),
-    // Icon(
-    //   Icons.arrow_upward_rounded,
-    //   color: ColorConstants.kwhiteColor,
-    // ),
   ];
 
 
@@ -60,8 +52,6 @@ class Constants {
   ];
   static List<int> amountList = [
     2010,
-    // 12010,
-    // 232010,
   ];
 
   static List<String> strList = [

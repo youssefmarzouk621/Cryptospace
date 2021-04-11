@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_universe/Storage/database_helper.dart';
 import 'package:liquid_swipe/Helpers/Helpers.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -27,7 +28,7 @@ EasyLoading.instance
   ..dismissOnTap = false;
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   static const TextStyle goldcoinGreyStyle = TextStyle(
       color: Colors.grey,
       fontSize: 20.0,
@@ -63,6 +64,13 @@ class MyApp extends StatelessWidget {
     fontSize: 20.0,
     fontFamily: "Product Sans",
   );
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
   final pages = [
     Container(
       color: Colors.white,
