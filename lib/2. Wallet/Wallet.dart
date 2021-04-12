@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_universe/2.%20Wallet/qr_create_page.dart';
+import 'package:flutter_universe/2.%20Wallet/qr_scan_page.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
 import 'package:http/http.dart';
 
@@ -15,29 +17,51 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-var myaccount;
-String balance;
+//
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
+//
+
 class Wallet extends StatefulWidget {
 
   @override
   _WalletdetailsState createState() => _WalletdetailsState();
 }
 class _WalletdetailsState extends State<Wallet> {
+
   final TransactionController transactionController = TransactionController();
   int touchedIndex;
   List data;
+  var myaccount;
+  String balance;
 
 
+
+
+  // final BannerAd myBanner = BannerAd(
+  //   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+  //   size: AdSize.banner,
+  //   request: AdRequest(),
+  //   listener: AdListener(),
+  // );
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    myaccount="0x4C57BB2339180fD73Ebbcc47425A694827Da70D6";
+    // myBanner.load();
+
+    //myaccount="0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
+
+    myaccount="0x6E4F4EB138b3e6b0E08f5f7b0e1AfAB2b0Fef7C7"; //deployed blockchain
+
+
+
   }
   @override
   Widget build(BuildContext context) {
+    // final AdWidget adWidget = AdWidget(ad: myBanner);
+
     return new WillPopScope(
         onWillPop: () async => false,
       child: Container(
@@ -55,6 +79,12 @@ class _WalletdetailsState extends State<Wallet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Container(
+              //   alignment: Alignment.center,
+              //   child: adWidget,
+              //   width: myBanner.size.width.toDouble(),
+              //   height: myBanner.size.height.toDouble(),
+              // ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
@@ -132,9 +162,73 @@ class _WalletdetailsState extends State<Wallet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 5,
                     ),
+                    Row(
+                      children: [
+                        ButtonTheme(
+                          minWidth: 150.0,
+                          child: OutlineButton(
+                            disabledBorderColor: const Color(0xffffffff),
+                            highlightedBorderColor: const Color(0xffffffff),
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                            onPressed: () => {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, a, b) => QRScanPage(),
+                                ),
+                              )
+                            },
 
+                            padding: EdgeInsets.all(10.0),
+                            child: Row( // Replace with a Row for horizontal icon + text
+                              children: <Widget>[
+                                Icon(Icons.send,color: const Color(0xffffffff),),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Send",style: TextStyle(color: const Color(0xffffffff),))
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        ButtonTheme(
+                          minWidth: 150.0,
+                          child: OutlineButton(
+                            disabledBorderColor: const Color(0xffffffff),
+                            highlightedBorderColor: const Color(0xffffffff),
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                            onPressed: () => {
+
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, a, b) => QRCreatePage(),
+                                ),
+                              )
+                            },
+
+                            padding: EdgeInsets.all(10.0),
+                            child: Row( // Replace with a Row for horizontal icon + text
+                              children: <Widget>[
+                                Icon(Icons.attach_money,color: const Color(0xffffffff),),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Receive",style: TextStyle(color: const Color(0xffffffff),))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
                     Column(
                         children: [
                           Container(

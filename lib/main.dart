@@ -1,16 +1,33 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_universe/0.%20Login/Createblockchain.dart';
+import 'package:flutter_universe/0.%20Login/Importblockchain.dart';
 import 'package:flutter_universe/Storage/database_helper.dart';
+import 'package:flutter_universe/index.dart';
+import 'package:flutter_universe/startScreen.dart';
 import 'package:liquid_swipe/Helpers/Helpers.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/0. Login/SigninPage.dart';
 
-void main() { runApp(MaterialApp(
+import 'Models/Core_User.dart';
+import 'Storage/Usersrepository.dart';
+import 'Storage/database_creator.dart';
+
+
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // MobileAds.instance.initialize();
+
+  runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  title: "App",
-  home: MyApp(),
-  builder: EasyLoading.init()
+    title: "App",
+    initialRoute: '/home',
+    routes: {
+      '/home': (context) => MyApp(),
+    },
+    builder: EasyLoading.init()
 
 ));
 EasyLoading.instance
@@ -34,7 +51,6 @@ class MyApp extends StatefulWidget {
       fontSize: 20.0,
       fontWeight: FontWeight.bold,
       fontFamily: "Product Sans");
-
   static const TextStyle goldCoinWhiteStyle = TextStyle(
       color: Colors.white,
       fontSize: 20.0,
@@ -70,6 +86,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  int found;
+  List<CoreUser> users;
 
   final pages = [
     Container(
@@ -227,67 +245,44 @@ class _MyAppState extends State<MyApp> {
     ),
   ];
 
+
+
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     //SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    return
- Scaffold(
-        body: Stack(
-          children: [
-        LiquidSwipe(
-          pages: pages,
-          enableLoop: true,
-          fullTransitionValue: 300,
-          enableSlideIcon: true,
-          waveType: WaveType.liquidReveal,
-          positionSlideIcon: 0.5,
-        ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SizedBox(
-                    height: 80,
-                  ),
-                  new GestureDetector(
-                    child: Text(
-                      "Skip",
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {  ////                    <--- onTap
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: Duration(seconds: 1),
-                          transitionsBuilder: (context, animation, animationTime, child) {
-                            animation = CurvedAnimation(
-                                parent: animation, curve: Curves.linearToEaseOut);
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, a, b) => SigninPage(),
-
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-          ]
-
-      ),
+    return FutureBuilder(
+      future: UsersRepository.getConnectedUser(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if(snapshot.data == null){
+          return Container(
+              child: Center(
+                  child: SpinKitDoubleBounce(
+                    color: Colors.blue,
+                    size: 100.0,
+                  )
+              )
+          );
+        }else{
+          if(snapshot.data==1){
+            return IndexPage();
+          }else{
+            return startScreen();
+          }
+        }
+      },
     );
+    // users.then((value) => {
+    //   print("length users : $found"),
+    //   if(found==1){
+    //     return IndexPage(),
+    //   }
+    //   return startScreen(),
+    // });
+
+
   }
 }
 

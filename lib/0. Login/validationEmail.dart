@@ -7,6 +7,8 @@ import 'package:flushbar/flushbar.dart';
 import 'dart:async';
 import  'package:circular_countdown/circular_countdown.dart';
 
+import 'Importblockchain.dart';
+
 class validationEmail extends StatefulWidget {
   final String code;
   final String email;
@@ -22,11 +24,11 @@ class _validationEmailState extends State<validationEmail> {
   bool verif=true;
   final AuthentificationController authController = AuthentificationController();
   Future<String> _futureResponse;
-   bool changeverif(bool verif){
-     setState(() {
-       verif=false;
-     });
-     return verif;
+  bool changeverif(bool verif){
+    setState(() {
+      verif=false;
+    });
+    return verif;
   }
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -98,17 +100,17 @@ class _validationEmailState extends State<validationEmail> {
                         Row(
                             children: [
                               SizedBox(width: 35.0),
-                        Align(
-                          alignment: Alignment.centerLeft, // Align however you like (i.e .centerRight, centerLeft)
-                          child:  Text(
-                            ' Please enter the activation \n code sent to your mail.',
-                            textAlign: TextAlign.left,
-                            style:
-                            TextStyle(fontSize: 17.0, fontWeight: FontWeight.w100,color:const Color(0xFFffffff)),
-                          ),
+                              Align(
+                                alignment: Alignment.centerLeft, // Align however you like (i.e .centerRight, centerLeft)
+                                child:  Text(
+                                  ' Please enter the activation \n code sent to your mail.',
+                                  textAlign: TextAlign.left,
+                                  style:
+                                  TextStyle(fontSize: 17.0, fontWeight: FontWeight.w100,color:const Color(0xFFffffff)),
+                                ),
+                              ),
+                            ]
                         ),
-                      ]
-                  ),
                         Container(
                           color: Color(0x00000000),
                           margin: const EdgeInsets.all(20.0),
@@ -155,17 +157,17 @@ class _validationEmailState extends State<validationEmail> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  TimeCircularCountdown(
-                  unit: CountdownUnit.second,
-                  countdownTotal: 60,
-                  diameter: 70,
-                  onUpdated: (unit, remainingTime) => print('Updated'),
-                  onFinished: () => {
-                    verif=changeverif(verif),
-                    print("verif"),
-                    print(verif),
-                  },
-                ),
+                    TimeCircularCountdown(
+                      unit: CountdownUnit.second,
+                      countdownTotal: 60,
+                      diameter: 70,
+                      onUpdated: (unit, remainingTime) => print('Updated'),
+                      onFinished: () => {
+                        verif=changeverif(verif),
+                        print("verif"),
+                        print(verif),
+                      },
+                    ),
                     SizedBox(height: 5.0),
                     // Align however you like (i.e .centerRight, centerLeft)
                     Center(
@@ -218,7 +220,7 @@ class _validationEmailState extends State<validationEmail> {
                   child: child,
                 );
               },
-              pageBuilder: (context, a, b) => PhraseAuth(),
+              pageBuilder: (context, a, b) => Importblockchain(),
 
             ),
           ),

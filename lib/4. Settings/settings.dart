@@ -1,4 +1,8 @@
+import 'package:flutter_universe/Models/Core_User.dart';
+import 'package:flutter_universe/Storage/Usersrepository.dart';
+import 'package:flutter_universe/Storage/database_creator.dart';
 import 'package:flutter_universe/Storage/database_helper.dart';
+import 'package:flutter_universe/index.dart';
 
 import '../staticdata/constants.dart';
 import 'package:flutter/material.dart';
@@ -66,22 +70,20 @@ class _SettingsState extends State<Settings> {
                     // splashColor: Colors.red,
                     color: const Color.fromRGBO(65, 45, 135, 0.7),
                     // textColor: Colors.white,
-                    child: Text('Sign In',
+                    child: Text('Logout',
                         style: TextStyle( fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w300,
                           color: const Color(0xFFffffff),
                           fontSize: 19,)
                     ),
                     onPressed: () async {
-                        int id = await DatabaseHelper.instance.insert({
-                          '_id' :'123456',
-                          'firstName' :'youssef',
-                          'lastName' :'marzouk',
-                          'email' :'youssef@gmail.com',
-                          'password' :'1234',
-                          'phone': '90057620'
-                        });
-                        print("inserted id: $id");
+                      await DatabaseCreator().initDatabase();
+                      Future<List<CoreUser>> users;
+                      users = UsersRepository.getAllUsers();
+                      users.then((value) async => {
+                        await UsersRepository.deleteUser(value.first),
+                        Navigator.popAndPushNamed(context, "/home"),
+                      });
                     },
                   )
                 ),

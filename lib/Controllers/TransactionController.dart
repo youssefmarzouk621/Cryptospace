@@ -69,5 +69,17 @@ class TransactionController {
 
   }
 
-
+  Future<String> importAccount(privateKey) async {
+    final response = await post(
+      Uri.http(baseURL,"api/token/importAccount"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'privatekey': privateKey,
+      }),
+    );
+    var parse = jsonDecode(response.body);
+    return parse["account"];
+  }
 }

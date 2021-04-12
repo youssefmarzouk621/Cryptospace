@@ -20,11 +20,15 @@ Future<String> getClipBoardData() async {
 
 
 class _QRScanPageState extends State<QRScanPage> {
-  String account = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A";
-  String receiver = '0x26d7d9cfABF292915e1E6f45110f24ea9341EF5E';
+  // String account = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
+  // String receiver = '0x26d7d9cfABF292915e1E6f45110f24ea9341EF5E';
 
+  String account = "0x6E4F4EB138b3e6b0E08f5f7b0e1AfAB2b0Fef7C7"; //deployed blockchain
+  String receiver = '';
 
   final TransactionController transactionController = TransactionController();
+  Future<int> _futureResponse;
+
   final amount = TextEditingController();
 
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -35,7 +39,6 @@ class _QRScanPageState extends State<QRScanPage> {
       borderRadius: BorderRadius.circular(15.0),
     );
   }
-  Future<int> _futureResponse;
 
   @override
   Widget build(BuildContext context) =>

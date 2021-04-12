@@ -1,4 +1,3 @@
-import 'package:bezier_chart/bezier_chart.dart';
 import 'package:flutter_universe/2.%20Wallet/qr_create_page.dart';
 import 'package:flutter_universe/2.%20Wallet/qr_scan_page.dart';
 import '../staticdata/constants.dart';
@@ -103,56 +102,56 @@ class _CoindetailsState extends State<Coindetails> {
                       )
                     ],
                   ),
-                  Center(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 2.5,
-                      width: MediaQuery.of(context).size.width,
-                      child: BezierChart(
-                        bezierChartScale: BezierChartScale.CUSTOM,
-                        selectedValue: 1,
-                        xAxisCustomValues: [1, 5, 10, 15, 20, 25, 30],
-                        series: const [
-                          BezierLine(
-                            label: "june",
-                            lineColor: const Color(0xfff9d505),
-                            dataPointStrokeColor: ColorConstants.kwhiteColor,
-                            dataPointFillColor: ColorConstants.korangeColor,
-                            lineStrokeWidth: 3,
-                            data: const [
-                              DataPoint<double>(value: 100, xAxis: 1),
-                              DataPoint<double>(value: 130, xAxis: 5),
-                              DataPoint<double>(value: 300, xAxis: 10),
-                              DataPoint<double>(value: 150, xAxis: 15),
-                              DataPoint<double>(value: 75, xAxis: 20),
-                              DataPoint<double>(value: 100, xAxis: 25),
-                              DataPoint<double>(value: 250, xAxis: 30),
-                            ],
-                          ),
-                        ],
-                        config: BezierChartConfig(
-                          startYAxisFromNonZeroValue: true,
-                          verticalIndicatorFixedPosition: false,
-                          bubbleIndicatorColor: ColorConstants.gblackColor,
-                          bubbleIndicatorLabelStyle:
-                          TextStyle(color: ColorConstants.kwhiteColor),
-                          bubbleIndicatorTitleStyle:
-                          TextStyle(color: ColorConstants.kwhiteColor),
-                          bubbleIndicatorValueStyle:
-                          TextStyle(color: ColorConstants.kwhiteColor),
-                          footerHeight: 40,
-                          displayYAxis: false,
-
-                          stepsYAxis: 15,
-                          displayLinesXAxis: false,
-                          xAxisTextStyle: TextStyle(
-                            color: ColorConstants.kwhiteColor,
-                          ),
-
-                          snap: false,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Center(
+                  //   child: Container(
+                  //     height: MediaQuery.of(context).size.height / 2.5,
+                  //     width: MediaQuery.of(context).size.width,
+                  //     child: BezierChart(
+                  //       bezierChartScale: BezierChartScale.CUSTOM,
+                  //       selectedValue: 1,
+                  //       xAxisCustomValues: [1, 5, 10, 15, 20, 25, 30],
+                  //       series: const [
+                  //         BezierLine(
+                  //           label: "june",
+                  //           lineColor: const Color(0xfff9d505),
+                  //           dataPointStrokeColor: ColorConstants.kwhiteColor,
+                  //           dataPointFillColor: ColorConstants.korangeColor,
+                  //           lineStrokeWidth: 3,
+                  //           data: const [
+                  //             DataPoint<double>(value: 100, xAxis: 1),
+                  //             DataPoint<double>(value: 130, xAxis: 5),
+                  //             DataPoint<double>(value: 300, xAxis: 10),
+                  //             DataPoint<double>(value: 150, xAxis: 15),
+                  //             DataPoint<double>(value: 75, xAxis: 20),
+                  //             DataPoint<double>(value: 100, xAxis: 25),
+                  //             DataPoint<double>(value: 250, xAxis: 30),
+                  //           ],
+                  //         ),
+                  //       ],
+                  //       config: BezierChartConfig(
+                  //         startYAxisFromNonZeroValue: true,
+                  //         verticalIndicatorFixedPosition: false,
+                  //         bubbleIndicatorColor: ColorConstants.gblackColor,
+                  //         bubbleIndicatorLabelStyle:
+                  //         TextStyle(color: ColorConstants.kwhiteColor),
+                  //         bubbleIndicatorTitleStyle:
+                  //         TextStyle(color: ColorConstants.kwhiteColor),
+                  //         bubbleIndicatorValueStyle:
+                  //         TextStyle(color: ColorConstants.kwhiteColor),
+                  //         footerHeight: 40,
+                  //         displayYAxis: false,
+                  //
+                  //         stepsYAxis: 15,
+                  //         displayLinesXAxis: false,
+                  //         xAxisTextStyle: TextStyle(
+                  //           color: ColorConstants.kwhiteColor,
+                  //         ),
+                  //
+                  //         snap: false,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     children: [
                       Container(

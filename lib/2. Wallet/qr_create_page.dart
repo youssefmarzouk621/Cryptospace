@@ -9,7 +9,10 @@ class QRCreatePage extends StatefulWidget {
 }
 
 class _QRCreatePageState extends State<QRCreatePage> {
-  String publickey = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A";
+
+  // String publickey = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
+   String publickey = "0x4C57BB2339180fD73Ebbcc47425A694827Da70D6"; //deployed blockchain
+
   final TransactionController transactionController = TransactionController();
   Future<String> _futureResponse;
 
