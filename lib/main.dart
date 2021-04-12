@@ -6,11 +6,13 @@ import 'package:flutter_universe/0.%20Login/Importblockchain.dart';
 import 'package:flutter_universe/Storage/database_helper.dart';
 import 'package:flutter_universe/index.dart';
 import 'package:flutter_universe/startScreen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:liquid_swipe/Helpers/Helpers.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/0. Login/SigninPage.dart';
 
+import '2. Wallet/Wallet.dart';
 import 'Models/Core_User.dart';
 import 'Storage/Usersrepository.dart';
 import 'Storage/database_creator.dart';
@@ -19,6 +21,8 @@ import 'Storage/database_creator.dart';
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
 
   runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -43,6 +47,8 @@ EasyLoading.instance
   ..maskColor = Colors.blue.withOpacity(0.5)
   ..userInteractions = true
   ..dismissOnTap = false;
+  myBanner.load();
+
 }
 
 class MyApp extends StatefulWidget {
@@ -271,7 +277,7 @@ class _MyAppState extends State<MyApp> {
           }else{
             return startScreen();
           }
-        }  
+        }
       },
     );
     // users.then((value) => {

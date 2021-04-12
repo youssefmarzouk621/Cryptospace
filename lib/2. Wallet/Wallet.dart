@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_universe/2.%20Wallet/qr_create_page.dart';
 import 'package:flutter_universe/2.%20Wallet/qr_scan_page.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart';
 
 import '../staticdata/constants.dart';
@@ -26,6 +27,14 @@ class Wallet extends StatefulWidget {
   @override
   _WalletdetailsState createState() => _WalletdetailsState();
 }
+final BannerAd myBanner = BannerAd(
+  adUnitId: '<ad unit ID>',
+  size: AdSize.banner,
+  request: AdRequest(),
+  listener: AdListener(),
+);
+final AdWidget adWidget = AdWidget(ad: myBanner);
+
 class _WalletdetailsState extends State<Wallet> {
 
   final TransactionController transactionController = TransactionController();
@@ -94,6 +103,12 @@ class _WalletdetailsState extends State<Wallet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                  Container(
+                  alignment: Alignment.center,
+                    child: adWidget,
+                    width: myBanner.size.width.toDouble(),
+                    height: myBanner.size.height.toDouble(),
+                  ),
                       SizedBox(
                         height: 10,
                       ),
