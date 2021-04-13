@@ -47,7 +47,7 @@ class DatabaseCreator {
       "$token" TEXT,
       "$publickey" TEXT,
       "$pincode" TEXT,
-      "$touchId" TEXT,
+      "$touchId" TEXT
     )''';
 
     await db.execute(UsersSql);
