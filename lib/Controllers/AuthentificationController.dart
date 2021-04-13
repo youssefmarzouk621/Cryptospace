@@ -47,7 +47,7 @@ class AuthentificationController {
       print(users);*/
 
   }
-
+  
 
   Future<String> registerService(String firstname,String lastname,String email,String password,String phone) async {
     Response res = await post(
