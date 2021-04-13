@@ -24,9 +24,7 @@ class AuthentificationController {
     if (res.statusCode == 200) {
       dynamic body = jsonDecode(res.body);
       User connectedUser = User.fromJson(body);
-      //Store connectedUser
       StoreConnectedUser(connectedUser);
-
       return "Connected";
     } else if (res.statusCode == 201) {
       return "password";

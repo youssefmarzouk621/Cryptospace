@@ -17,13 +17,34 @@ class UsersRepository {
     return users;
   }
 
-  static Future<int> getConnectedUser() async {
+  static Future<int> verifyConnectedUser() async {
     await DatabaseCreator().initDatabase();
     final sql = '''
       SELECT * FROM '${DatabaseCreator.UsersTable}'
     ''';
     final data = await db.rawQuery(sql);
+    if(data.length!=0){
+      final user = CoreUser.fromJson(data.first);
+      if(user.publickey=="none"){
+        return -1;
+      }else if(user.pincode=="none"){
+        return -2;
+      }
+    }
     return data.length;
+  }
+
+  static Future<CoreUser> getConnectedUser() async {
+    await DatabaseCreator().initDatabase();
+    final sql = '''
+      SELECT * FROM '${DatabaseCreator.UsersTable}'
+    ''';
+    final data = await db.rawQuery(sql);
+    if(data.length!=0){
+      final user = CoreUser.fromJson(data.first);
+      return user;
+    }
+    return null;
   }
 
   static Future<CoreUser> getUser(int id) async {

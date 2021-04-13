@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/0. Login/SignupPage.dart';
+import 'package:flutter_universe/0.%20Login/Pincode.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
+import 'package:flutter_universe/Models/Core_User.dart';
+import 'package:flutter_universe/Storage/Usersrepository.dart';
 import 'package:flutter_universe/index.dart';
 import 'package:flutter_universe/0.%20Login/PhraseAuth.dart';
 import 'package:flutter_universe/0. Login/Createblockchain.dart';
@@ -21,6 +24,7 @@ class _ImportblockchainState extends State<Importblockchain> {
   final myController = TextEditingController();
   final TransactionController transactionController = TransactionController();
   Future<String> _futureResponse;
+  Future<CoreUser> _futureUser;
 
   @override
   Widget build(BuildContext context) =>
@@ -164,21 +168,35 @@ class _ImportblockchainState extends State<Importblockchain> {
                                 EasyLoading.init();
                                 if(myController.text.length==64){
                                   _futureResponse = transactionController.importAccount(myController.text);
-                                  _futureResponse.then((value) => {
-                                    Navigator.push(
-                                      context,
-                                      PageRouteBuilder(
-                                        transitionDuration: Duration(seconds: 1),
-                                        transitionsBuilder: (context, animation, animationTime, child) {
-                                          animation = CurvedAnimation(parent: animation, curve: Curves.decelerate);
-                                          return FadeTransition(
-                                            opacity: animation,
-                                            child: child,
-                                          );
-                                        },
-                                        pageBuilder: (context, a, b) => PhraseAuth(),
-                                      ),
-                                    )
+
+                                  _futureResponse.then((keyValue) => {
+
+                                    print("public key :"),
+                                    print(keyValue),
+                                    _futureUser = UsersRepository.getConnectedUser(),
+                                    _futureUser.then((coreUser) => {
+                                      if(coreUser==null){
+                                        EasyLoading.showError('Please try again later'),
+                                      }else{
+                                        coreUser.publickey=keyValue,
+                                        UsersRepository.updateUser(coreUser),
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            transitionDuration: Duration(seconds: 1),
+                                            transitionsBuilder: (context, animation, animationTime, child) {
+                                              animation = CurvedAnimation(parent: animation, curve: Curves.decelerate);
+                                              return FadeTransition(
+                                                opacity: animation,
+                                                child: child,
+                                              );
+                                            },
+                                            pageBuilder: (context, a, b) => Pincode(),
+                                          ),
+                                        )
+                                      }
+                                    })
+
                                   });
                                 }else{
                                   EasyLoading.showError('Please enter a valid private key, Private key must be 32 bytes long');

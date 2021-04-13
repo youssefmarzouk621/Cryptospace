@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/0. Login/PhraseAuth.dart';
 import 'package:flutter_universe/0. Login/Fingerprint Authentification.dart';
+import 'package:flutter_universe/Models/Core_User.dart';
+import 'package:flutter_universe/Storage/Usersrepository.dart';
+import 'package:flutter_universe/index.dart';
 import 'package:local_auth/local_auth.dart';
 
 import 'package:flutter/services.dart';
@@ -19,7 +23,6 @@ class _PincodeState extends State<Pincode> {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
   bool _canCheckBiometric = false;
   List<BiometricType> _availableBiometricTypes = List<BiometricType>();
-
   Future<void> _checkBiometric() async {
     bool canCheckBiometric = false;
     try {
@@ -35,6 +38,8 @@ class _PincodeState extends State<Pincode> {
       _canCheckBiometric = canCheckBiometric;
     });
   }
+
+  Future<CoreUser> _futureUser;
 
   @override
   void initState() {
@@ -181,28 +186,35 @@ class _PincodeState extends State<Pincode> {
                                     _checkBiometric();
                                     if ((_pinPutController.text.length == 4))
                                     {
-                                       if (_canCheckBiometric == true)
-                                      {
-                                        _showMyDialog();
-                                      }
-                                       else{
-                                         Navigator.push(
-                                           context,
-                                           PageRouteBuilder(
-                                             transitionDuration: Duration(seconds: 1),
-                                             transitionsBuilder: (context, animation, animationTime, child) {
-                                               animation = CurvedAnimation(
-                                                   parent: animation, curve: Curves.decelerate);
-                                               return FadeTransition(
-                                                 opacity: animation,
-                                                 child: child,
-                                               );
-                                             },
-                                             pageBuilder: (context, a, b) => PhraseAuth(),
+                                      _futureUser = UsersRepository.getConnectedUser();
+                                      _futureUser.then((coreUser) => {
+                                        coreUser.pincode=_pinPutController.text,
+                                        UsersRepository.updateUser(coreUser),
+                                        if (_canCheckBiometric == true){
+                                          print("can check bio"),
+                                          _showMyDialog(),
+                                        }else{
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              transitionDuration: Duration(seconds: 1),
+                                              transitionsBuilder: (context, animation, animationTime, child) {
+                                                animation = CurvedAnimation(
+                                                    parent: animation, curve: Curves.decelerate);
+                                                return FadeTransition(
+                                                  opacity: animation,
+                                                  child: child,
+                                                );
+                                              },
+                                              pageBuilder: (context, a, b) => IndexPage(),
 
-                                           ),
-                                         );
-                                       }
+                                            ),
+                                          ),
+                                        }
+                                      });
+                                    }else{
+                                      EasyLoading.init();
+                                      EasyLoading.showError('Please enter your pincode');
                                     }
 
                                   },
@@ -275,7 +287,7 @@ class _PincodeState extends State<Pincode> {
                         child: child,
                       );
                     },
-                    pageBuilder: (context, a, b) => PhraseAuth(),
+                    pageBuilder: (context, a, b) => IndexPage(),
 
                   ),
                 );

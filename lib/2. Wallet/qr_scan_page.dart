@@ -272,7 +272,7 @@ class _QRScanPageState extends State<QRScanPage> {
                       onSubmit: ((String pin) => {
                         EasyLoading.init(),
                         if(pin=="5555"){
-                          _futureResponse = transactionController.SendTokenService(amount.text,account,receiver),
+                          _futureResponse = transactionController.SendTokenService(amount.text,receiver),
                           _futureResponse.then((val) => {
                             if(val==-1){
                               EasyLoading.showError('please try again later'),

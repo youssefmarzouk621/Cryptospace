@@ -17,10 +17,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-//
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-//
-
 class Wallet extends StatefulWidget {
 
   @override
@@ -31,36 +27,23 @@ class _WalletdetailsState extends State<Wallet> {
   final TransactionController transactionController = TransactionController();
   int touchedIndex;
   List data;
-  var myaccount;
   String balance;
 
 
 
-
-  // final BannerAd myBanner = BannerAd(
-  //   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-  //   size: AdSize.banner,
-  //   request: AdRequest(),
-  //   listener: AdListener(),
-  // );
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // myBanner.load();
 
-    //myaccount="0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
-
-    myaccount="0x6E4F4EB138b3e6b0E08f5f7b0e1AfAB2b0Fef7C7"; //deployed blockchain
 
 
 
   }
   @override
   Widget build(BuildContext context) {
-    // final AdWidget adWidget = AdWidget(ad: myBanner);
 
     return new WillPopScope(
         onWillPop: () async => false,
@@ -79,12 +62,6 @@ class _WalletdetailsState extends State<Wallet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Container(
-              //   alignment: Alignment.center,
-              //   child: adWidget,
-              //   width: myBanner.size.width.toDouble(),
-              //   height: myBanner.size.height.toDouble(),
-              // ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
@@ -95,7 +72,7 @@ class _WalletdetailsState extends State<Wallet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Text(
                         'My Wallet',
@@ -103,17 +80,6 @@ class _WalletdetailsState extends State<Wallet> {
                           fontSize: 33,
                           fontWeight: FontWeight.w700,
                           color: ColorConstants.kwhiteColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'You have 3 Active Accounts.',
-                        style: GoogleFonts.spartan(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff60a8e2),
                         ),
                       ),
                     ],
@@ -144,8 +110,8 @@ class _WalletdetailsState extends State<Wallet> {
                               borderData: FlBorderData(
                                 show: false,
                               ),
-                              sectionsSpace: 5,
-                              centerSpaceRadius: 110,
+                              sectionsSpace: 7,
+                              centerSpaceRadius: 100,
                               sections: showingSections()),
                         ),
                       ),
@@ -165,9 +131,10 @@ class _WalletdetailsState extends State<Wallet> {
                       height: 5,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                       children: [
                         ButtonTheme(
-                          minWidth: 150.0,
+                          minWidth: 130.0,
                           child: OutlineButton(
                             disabledBorderColor: const Color(0xffffffff),
                             highlightedBorderColor: const Color(0xffffffff),
@@ -180,7 +147,6 @@ class _WalletdetailsState extends State<Wallet> {
                                 ),
                               )
                             },
-
                             padding: EdgeInsets.all(10.0),
                             child: Row( // Replace with a Row for horizontal icon + text
                               children: <Widget>[
@@ -197,7 +163,7 @@ class _WalletdetailsState extends State<Wallet> {
                           width: 20,
                         ),
                         ButtonTheme(
-                          minWidth: 150.0,
+                          minWidth: 130.0,
                           child: OutlineButton(
                             disabledBorderColor: const Color(0xffffffff),
                             highlightedBorderColor: const Color(0xffffffff),
@@ -233,7 +199,7 @@ class _WalletdetailsState extends State<Wallet> {
                         children: [
                           Container(
                             child: FutureBuilder(
-                              future: transactionController.getBalance(myaccount),
+                              future: transactionController.getBalance(),
                               builder: (BuildContext context, AsyncSnapshot snapshot) {
                                 if(snapshot.data == null){
                                   return Container(
@@ -290,7 +256,7 @@ class _WalletdetailsState extends State<Wallet> {
                         ),
                         Container(
                           child: FutureBuilder(
-                            future: transactionController.getTransactions(myaccount),
+                            future: transactionController.getTransactions(),
                             builder: (BuildContext context, AsyncSnapshot snapshot) {
                               if(snapshot.data == null){
                                 return Container(
@@ -308,14 +274,14 @@ class _WalletdetailsState extends State<Wallet> {
                                       snapshot.data == null ? 0 : snapshot.data.length,
                                           (index) {
                                         return TransactionListWidget(
-                                          icon: snapshot.data[index].from == myaccount ? Icon(
+                                          icon: snapshot.data[index].status == "Transfered" ? Icon(
                                             Icons.arrow_upward_rounded,
                                             color: ColorConstants.kwhiteColor,
                                           ) : Icon(
                                             Icons.arrow_downward_rounded,
                                             color: ColorConstants.kwhiteColor,
                                           ),
-                                          titleTxt: snapshot.data[index].from == myaccount ? "Transfered" : "Received",
+                                          titleTxt: snapshot.data[index].status,
                                           subtitleTxt:  snapshot.data[index].to,
                                           amount:  snapshot.data[index].tokens,
                                         );

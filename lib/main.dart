@@ -255,7 +255,7 @@ class _MyAppState extends State<MyApp> {
     //SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     return FutureBuilder(
-      future: UsersRepository.getConnectedUser(),
+      future: UsersRepository.verifyConnectedUser(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.data == null){
           return Container(
@@ -269,6 +269,10 @@ class _MyAppState extends State<MyApp> {
         }else{
           if(snapshot.data==1){
             return IndexPage();
+          }else if(snapshot.data==-1){
+            return Importblockchain();
+          }else if(snapshot.data==-2){
+            return Pincode();
           }else{
             return startScreen();
           }

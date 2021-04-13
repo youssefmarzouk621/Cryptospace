@@ -69,16 +69,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                height: 400,
+                height: 388,
                 padding: const EdgeInsets.only(left: 32),
                 child: Swiper(
                   itemCount: planets.length,
-                  itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+                  itemWidth: MediaQuery.of(context).size.width - 2.2 * 64,
                   layout: SwiperLayout.STACK,
                   pagination: SwiperPagination(
-                    builder:
-                        DotSwiperPaginationBuilder(activeSize: 20, space: 8,color: const Color(0xffFCE2FD), activeColor: const Color(0xfffad502),),
-
+                    builder: DotSwiperPaginationBuilder(activeSize: 20, space: 8,color: const Color(0xffFCE2FD), activeColor: const Color(0xfffad502),),
                   ),
                   itemBuilder: (context, index) {
                     return InkWell(
