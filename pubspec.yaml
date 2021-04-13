@@ -54,6 +54,7 @@ dependencies:
   fl_chart: ^0.12.3
   intl_phone_field: ^1.4.2
   string_validator: ^0.1.4
+  local_auth: ^0.6.3+4
 
 
 dev_dependencies:

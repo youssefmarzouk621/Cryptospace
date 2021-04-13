@@ -86,7 +86,7 @@ class UsersRepository {
         "${DatabaseCreator.token}" = ?,
         "${DatabaseCreator.publickey}" = ?,
         "${DatabaseCreator.pincode}" = ?,
-        "${DatabaseCreator.touchId}" = ?,
+        "${DatabaseCreator.touchId}" = ?
     WHERE ${DatabaseCreator.database_id} = ?
     ''';
 
