@@ -17,7 +17,7 @@ class _QRCreatePageState extends State<QRCreatePage> {
 
   final TransactionController transactionController = TransactionController();
   Future<String> _futureResponse;
-
+ 
   @override
   Widget build(BuildContext context) =>
       Container(
