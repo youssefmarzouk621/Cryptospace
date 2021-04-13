@@ -41,7 +41,7 @@ class AuthentificationController {
 
       await DatabaseCreator().initDatabase();
       int count = await UsersRepository.usersCount();
-      final user = CoreUser(count,connectedUser.id ,connectedUser.firstName,connectedUser.lastName,connectedUser.email,connectedUser.password,connectedUser.phone,connectedUser.accessToken,"5555","");
+      final user = CoreUser(count,connectedUser.id ,connectedUser.firstName,connectedUser.lastName,connectedUser.email,connectedUser.password,connectedUser.phone,connectedUser.accessToken,"none","none","none");
       await UsersRepository.addUser(user);
       /*users = UsersRepository.getAllUsers();
       print(users);*/

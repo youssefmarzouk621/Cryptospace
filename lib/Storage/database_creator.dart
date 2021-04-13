@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-Database dataB;
+Database db;
 
 class DatabaseCreator {
   static const UsersTable = 'Users';
@@ -17,6 +17,7 @@ class DatabaseCreator {
   static const token = 'token';
   static const publickey = 'publickey';
   static const pincode = 'pincode';
+  static const touchId = 'touchid';
 
   static void databaseLog(String functionName, String sql,
       [List<Map<String, dynamic>> selectQueryResult, int insertAndUpdateQueryResult, List<dynamic> params]) {
@@ -45,7 +46,8 @@ class DatabaseCreator {
       "$phone" TEXT,
       "$token" TEXT,
       "$publickey" TEXT,
-      "$pincode" TEXT
+      "$pincode" TEXT,
+      "$touchId" TEXT,
     )''';
 
     await db.execute(UsersSql);
@@ -66,7 +68,7 @@ class DatabaseCreator {
 
   Future<void> initDatabase() async {
     final path = await getDatabasePath('Vault_db');
-    dataB = await openDatabase(path, version: 1, onCreate: onCreate);
+    db = await openDatabase(path, version: 1, onCreate: onCreate);
     print("database init success");
   }
 

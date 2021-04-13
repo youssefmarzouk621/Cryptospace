@@ -11,6 +11,7 @@ class CoreUser {
   String token;
   String publickey;
   String pincode;
+  String touchId;
 
   CoreUser(
       this.id,
@@ -22,7 +23,8 @@ class CoreUser {
       this.phone,
       this.token,
       this.publickey,
-      this.pincode
+      this.pincode,
+      this.touchId
   );
 
   CoreUser.fromJson(Map<String, dynamic> json) {
@@ -36,5 +38,6 @@ class CoreUser {
     this.token = json[DatabaseCreator.token];
     this.publickey = json[DatabaseCreator.publickey];
     this.pincode = json[DatabaseCreator.pincode];
+    this.touchId = json[DatabaseCreator.touchId];
   }
 }

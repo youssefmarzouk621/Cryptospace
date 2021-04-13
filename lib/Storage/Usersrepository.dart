@@ -4,11 +4,10 @@ import 'package:flutter_universe/Storage/database_creator.dart';
 class UsersRepository {
   static Future<List<CoreUser>> getAllUsers() async {
     await DatabaseCreator().initDatabase();
-    print('inside getall user');
     final sql = '''
       SELECT * FROM '${DatabaseCreator.UsersTable}'
     ''';
-    final data = await dataB.rawQuery(sql);
+    final data = await db.rawQuery(sql);
     List<CoreUser> users = List();
 
     for (final node in data) {
@@ -20,11 +19,10 @@ class UsersRepository {
 
   static Future<int> getConnectedUser() async {
     await DatabaseCreator().initDatabase();
-    print('inside getConnectedUser');
     final sql = '''
       SELECT * FROM '${DatabaseCreator.UsersTable}'
     ''';
-    final data = await dataB.rawQuery(sql);
+    final data = await db.rawQuery(sql);
     return data.length;
   }
 
@@ -36,7 +34,7 @@ class UsersRepository {
 
     List<dynamic> params = [id];
 
-    final data = await dataB.rawQuery(sql, params);
+    final data = await db.rawQuery(sql, params);
 
     final user = CoreUser.fromJson(data.first);
     return user;
@@ -55,11 +53,12 @@ class UsersRepository {
       "${DatabaseCreator.phone}",
       "${DatabaseCreator.token}",
       "${DatabaseCreator.publickey}",
-      "${DatabaseCreator.pincode}"
+      "${DatabaseCreator.pincode}",
+      "${DatabaseCreator.touchId}"
     )
-    VALUES (?,?,?,?,?,?,?,?,?,?)''';
-    List<dynamic> params = [user.id,user.database_id, user.firstName, user.lastName, user.email, user.password, user.phone, user.token, user.publickey, user.pincode];
-    final result = await dataB.rawInsert(sql, params);
+    VALUES (?,?,?,?,?,?,?,?,?,?,?)''';
+    List<dynamic> params = [user.id,user.database_id, user.firstName, user.lastName, user.email, user.password, user.phone, user.token, user.publickey, user.pincode, user.touchId];
+    final result = await db.rawInsert(sql, params);
 
     DatabaseCreator.databaseLog('Add User', sql, null, result, params);
   }
@@ -71,7 +70,7 @@ class UsersRepository {
     ''';
 
     List<dynamic> params = [user.database_id];
-    final result = await dataB.rawDelete(sql, params);
+    final result = await db.rawDelete(sql, params);
 
     DatabaseCreator.databaseLog('Delete User', sql, null, result, params);
   }
@@ -86,18 +85,19 @@ class UsersRepository {
         "${DatabaseCreator.phone}" = ?,
         "${DatabaseCreator.token}" = ?,
         "${DatabaseCreator.publickey}" = ?,
-        "${DatabaseCreator.pincode}" = ?
+        "${DatabaseCreator.pincode}" = ?,
+        "${DatabaseCreator.touchId}" = ?,
     WHERE ${DatabaseCreator.database_id} = ?
     ''';
 
-    List<dynamic> params = [user.firstName, user.lastName, user.email, user.password, user.phone, user.token, user.publickey, user.pincode, user.database_id];
-    final result = await dataB.rawUpdate(sql, params);
+    List<dynamic> params = [user.firstName, user.lastName, user.email, user.password, user.phone, user.token, user.publickey, user.pincode, user.touchId, user.database_id];
+    final result = await db.rawUpdate(sql, params);
 
     DatabaseCreator.databaseLog('Update user', sql, null, result, params);
   }
 
   static Future<int> usersCount() async {
-    final data = await dataB.rawQuery('''
+    final data = await db.rawQuery('''
     SELECT COUNT(*) FROM ${DatabaseCreator.UsersTable}
     ''');
     int count = data[0].values.elementAt(0);
