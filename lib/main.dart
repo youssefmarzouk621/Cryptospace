@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,10 +18,11 @@ import 'Models/Core_User.dart';
 import 'Storage/Usersrepository.dart';
 import 'Storage/database_creator.dart';
 
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/status.dart' as status;
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // MobileAds.instance.initialize();
 
   runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -46,6 +49,7 @@ EasyLoading.instance
   ..dismissOnTap = false;
 }
 
+
 class MyApp extends StatefulWidget {
   static const TextStyle goldcoinGreyStyle = TextStyle(
       color: Colors.grey,
@@ -58,10 +62,8 @@ class MyApp extends StatefulWidget {
       fontWeight: FontWeight.bold,
       fontFamily: "Product Sans");
 
-  static const TextStyle greyStyle =
-  TextStyle(fontSize: 40.0, color: Colors.grey, fontFamily: "Product Sans");
-  static const TextStyle whiteStyle =
-  TextStyle(fontSize: 40.0, color: Colors.white, fontFamily: "Product Sans");
+  static const TextStyle greyStyle = TextStyle(fontSize: 40.0, color: Colors.grey, fontFamily: "Product Sans");
+  static const TextStyle whiteStyle = TextStyle(fontSize: 40.0, color: Colors.white, fontFamily: "Product Sans");
 
   static const TextStyle boldStyle = TextStyle(
     fontSize: 50.0,
@@ -86,9 +88,44 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   int found;
   List<CoreUser> users;
+  WebSocketChannel _channel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+    _channel = IOWebSocketChannel.connect('ws://192.168.1.46:4000');
+    print("channel connected");
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('state = $state');
+    if(state==AppLifecycleState.detached){
+      _channel.sink.close();
+      print("channel closed");
+    }
+
+    if(state==AppLifecycleState.paused){
+      _channel.sink.close();
+      print("channel closed");
+    }
+
+    if(state==AppLifecycleState.resumed){
+      _channel = IOWebSocketChannel.connect('ws://192.168.1.46:4000');
+      print("channel connected");
+    }
+  }
 
   final pages = [
     Container(
@@ -252,9 +289,28 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context){
-    //SystemChrome.setEnabledSystemUIOverlays([]);
+
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    return FutureBuilder(
+    EasyLoading.init();
+
+    StreamBuilder(
+      stream: _channel.stream,
+      builder: (context, snapshot) {
+        Future<CoreUser> _futureUser;
+        _futureUser = UsersRepository.getConnectedUser();
+        var socketJson = jsonDecode(snapshot.data);
+        _futureUser.then((user) => {
+          if(socketJson['receiver'].toString()==user.publickey){
+            EasyLoading.showSuccess(socketJson['message'].toString()),
+          }
+        });
+
+
+        return Container();
+      },
+    );
+    return
+      FutureBuilder(
       future: UsersRepository.verifyConnectedUser(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.data == null){
@@ -268,30 +324,20 @@ class _MyAppState extends State<MyApp> {
           );
         }else{
           if(snapshot.data==1){
-            return IndexPage();
+            return IndexPage(channel: _channel);
           }else if(snapshot.data==-1){
             return Importblockchain();
           }else if(snapshot.data==-2){
             return Pincode();
           }else{
-            return startScreen();
+            return startScreen(_channel);
           }
         }
       },
     );
-    // users.then((value) => {
-    //   print("length users : $found"),
-    //   if(found==1){
-    //     return IndexPage(),
-    //   }
-    //   return startScreen(),
-    // });
-
 
   }
 }
-
-
 
 
 

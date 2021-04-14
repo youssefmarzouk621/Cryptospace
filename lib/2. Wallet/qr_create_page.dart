@@ -6,18 +6,23 @@ import 'package:flutter_universe/Storage/Usersrepository.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
 
+
 class QRCreatePage extends StatefulWidget {
+
   @override
   _QRCreatePageState createState() => _QRCreatePageState();
 }
 
 class _QRCreatePageState extends State<QRCreatePage> {
 
-  // String publickey = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
-
   final TransactionController transactionController = TransactionController();
   Future<String> _futureResponse;
- 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) =>
       Container(
@@ -30,7 +35,7 @@ class _QRCreatePageState extends State<QRCreatePage> {
             ),
           ),
           child: Scaffold(
-    backgroundColor: Color(0x00000000),
+          backgroundColor: Color(0x00000000),
         body: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(24),

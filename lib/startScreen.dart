@@ -5,6 +5,7 @@ import 'package:liquid_swipe/Helpers/Helpers.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/0. Login/SigninPage.dart';
+import 'package:web_socket_channel/src/channel.dart';
 
 class startScreen extends StatefulWidget {
   static const TextStyle goldcoinGreyStyle = TextStyle(
@@ -40,8 +41,11 @@ class startScreen extends StatefulWidget {
     fontFamily: "Product Sans",
   );
 
+  WebSocketChannel _channel;
+  startScreen(this._channel);
+
   @override
-  _startScreenState createState() => _startScreenState();
+  _startScreenState createState() => _startScreenState(_channel);
 }
 
 class _startScreenState extends State<startScreen> {
@@ -200,6 +204,16 @@ class _startScreenState extends State<startScreen> {
       ),
     ),
   ];
+
+  WebSocketChannel _channel;
+  _startScreenState(this._channel);
+
+  @override
+  void initState() {
+    super.initState();
+    _channel.sink.close();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return
@@ -220,7 +234,7 @@ class _startScreenState extends State<startScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(
-                      height: 80,
+                      height: 120,
                     ),
                     new GestureDetector(
                       child: Text(

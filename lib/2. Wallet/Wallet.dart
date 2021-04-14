@@ -4,6 +4,8 @@ import 'package:flutter_universe/2.%20Wallet/qr_create_page.dart';
 import 'package:flutter_universe/2.%20Wallet/qr_scan_page.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
 import 'package:http/http.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../staticdata/constants.dart';
 import 'package:flutter_universe/custom_widgets/card_widget.dart';
@@ -18,9 +20,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Wallet extends StatefulWidget {
-
+  final WebSocketChannel channel;
+  Wallet({@required this.channel});
   @override
-  _WalletdetailsState createState() => _WalletdetailsState();
+  _WalletdetailsState createState() => _WalletdetailsState(channel);
 }
 class _WalletdetailsState extends State<Wallet> {
 
@@ -28,6 +31,8 @@ class _WalletdetailsState extends State<Wallet> {
   int touchedIndex;
   List data;
   String balance;
+  WebSocketChannel channel;
+  _WalletdetailsState(this.channel);
 
 
 
@@ -38,10 +43,14 @@ class _WalletdetailsState extends State<Wallet> {
     // TODO: implement initState
     super.initState();
 
-
-
-
+    if(channel==null){
+      print("channel null");
+      channel = IOWebSocketChannel.connect('ws://192.168.1.46:4000');
+    }else{
+      print("channel taada mrigel");
+    }
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -143,7 +152,7 @@ class _WalletdetailsState extends State<Wallet> {
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
-                                  pageBuilder: (context, a, b) => QRScanPage(),
+                                  pageBuilder: (context, a, b) => QRScanPage(channel:channel),
                                 ),
                               )
                             },

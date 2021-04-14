@@ -1,16 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
+import 'package:flutter_universe/Models/Core_User.dart';
+import 'package:flutter_universe/Storage/Usersrepository.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../main.dart';
 
 class QRScanPage extends StatefulWidget {
+  final WebSocketChannel channel;
+  QRScanPage({@required this.channel});
   @override
-  State<StatefulWidget> createState() => _QRScanPageState();
+  State<StatefulWidget> createState() => _QRScanPageState(channel:channel);
 }
 
 Future<String> getClipBoardData() async {
@@ -20,6 +27,8 @@ Future<String> getClipBoardData() async {
 
 
 class _QRScanPageState extends State<QRScanPage> {
+  final WebSocketChannel channel;
+  _QRScanPageState({@required this.channel});
   // String account = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
   // String receiver = '0x26d7d9cfABF292915e1E6f45110f24ea9341EF5E';
 
@@ -199,7 +208,7 @@ class _QRScanPageState extends State<QRScanPage> {
                           }else if(amount.text.isEmpty){
                             EasyLoading.showError('please specify the amount of tokens you want to transfer');
                           }else{
-                            _verificationModalBottomSheet(context);
+                            _verificationModalBottomSheet(context,channel);
                           }
 
                         });
@@ -234,8 +243,16 @@ class _QRScanPageState extends State<QRScanPage> {
   }
 
   // Edit Modal
-  void _verificationModalBottomSheet(context) {
-    showModalBottomSheet(context: context, builder: (BuildContext bc) {
+  Future<void> _verificationModalBottomSheet(context,WebSocketChannel channel) async {
+    CoreUser _futureUser;
+    _futureUser = await UsersRepository.getConnectedUser();
+     var json = {
+          "sender": _futureUser.firstName+" "+_futureUser.lastName,
+          "receiver": receiver,
+          "type": "text",
+          "message": _futureUser.firstName+" "+_futureUser.lastName+" sent you "+amount.text+" Vault"
+        };
+        showModalBottomSheet(context: context, builder: (BuildContext bc) {
       return Container(
           height: MediaQuery.of(context).size.height * .60,
           child: Padding(
@@ -278,6 +295,9 @@ class _QRScanPageState extends State<QRScanPage> {
                               EasyLoading.showError('please try again later'),
                             }else{
                               Navigator.of(context).pop(),
+
+                              channel.sink.add(jsonEncode(json)),
+                              print("sent to socket"),
                               EasyLoading.showSuccess('Transaction approved'),
                             }
                           })

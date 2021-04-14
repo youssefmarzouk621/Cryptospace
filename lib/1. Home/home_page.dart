@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_universe/1. Home/detail_page.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../staticdata/constants.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -7,11 +8,21 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_universe/staticdata/data.dart';
 
 class HomePage extends StatefulWidget {
+  final WebSocketChannel channel;
+  HomePage({@required this.channel});
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(channel);
 }
 
 class _HomePageState extends State<HomePage> {
+  final WebSocketChannel channel;
+  _HomePageState(this.channel);
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(

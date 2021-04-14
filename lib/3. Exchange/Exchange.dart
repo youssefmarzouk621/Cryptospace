@@ -1,3 +1,5 @@
+import 'package:web_socket_channel/web_socket_channel.dart';
+
 import '../staticdata/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class Exchange extends StatefulWidget {
+  final WebSocketChannel channel;
+  Exchange({@required this.channel});
+
   @override
   _Exchange createState() => _Exchange();
 }
