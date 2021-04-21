@@ -35,13 +35,10 @@ class _WalletdetailsState extends State<Wallet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-
-
-
   }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -95,25 +92,61 @@ class _WalletdetailsState extends State<Wallet> {
                   child: Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,
-                        child: PieChart(
-                          PieChartData(
-                              pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                                setState(() {
-                                  if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                      pieTouchResponse.touchInput is FlPanEnd) {
-                                    touchedIndex = -1;
-                                  } else {
-                                    touchedIndex = pieTouchResponse.touchedSectionIndex;
-                                  }
-                                });
-                              }),
-                              borderData: FlBorderData(
-                                show: false,
-                              ),
-                              sectionsSpace: 7,
-                              centerSpaceRadius: 100,
-                              sections: showingSections()),
+                        child:
+
+
+                        FutureBuilder(
+                          future: transactionController.getBalances(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if(snapshot.data == null){
+                              return PieChart(
+                                PieChartData(
+                                    pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                                      setState(() {
+                                        if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                            pieTouchResponse.touchInput is FlPanEnd) {
+                                          touchedIndex = -1;
+                                        } else {
+                                          touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                        }
+                                      });
+                                    }),
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 7,
+                                    centerSpaceRadius: 100,
+                                    sections: showingStaticSections()),
+                              );
+                            }else{
+                              return PieChart(
+                                PieChartData(
+                                    pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                                      setState(() {
+                                        if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                            pieTouchResponse.touchInput is FlPanEnd) {
+                                          touchedIndex = -1;
+                                        } else {
+                                          touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                        }
+                                      });
+                                    }),
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 7,
+                                    centerSpaceRadius: 100,
+                                    sections: showingSections(snapshot.data)),
+                              );
+                            }
+                          },
                         ),
+
+
+
+
+
+
                       ),
                     ),
                 ),
@@ -213,15 +246,23 @@ class _WalletdetailsState extends State<Wallet> {
                                 }else{
                                   return Column(
                                     children:
-                                    List.generate(
-                                      snapshot.data == null ? 0 : 1,
-                                          (index) {
-                                        return TransactionListWidget(
-                                          icon: Constants.iconList[index],
-                                          titleTxt: "Vault",
-                                          subtitleTxt: "",
-                                          amount: snapshot.data,
-                                        );
+                                    List.generate(2,(index) {
+                                        if(index==0){
+                                          return TransactionListWidget(
+                                            icon: Constants.iconList[0],
+                                            titleTxt: "Vault",
+                                            subtitleTxt: "",
+                                            amount: snapshot.data['balanceVault'],
+                                          );
+                                        }else{
+                                          return TransactionListWidget(
+                                            icon: Constants.iconList[0],
+                                            titleTxt: "ETH",
+                                            subtitleTxt: "",
+                                            amount: snapshot.data['balanceEth'],
+                                          );
+                                        }
+
                                       },
                                     ),
                                   );
@@ -310,7 +351,65 @@ class _WalletdetailsState extends State<Wallet> {
     );
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingStaticSections() {
+    return List.generate(1, (i) {
+      final isTouched = i == touchedIndex;
+      final double fontSize = isTouched ? 25 : 16;
+      final double radius = isTouched ? 60 : 50;
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: const Color(0xff0293ee),
+            value: 100,
+            title: '',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+          );
+        default:
+          return null;
+      }
+    });
+  }
+
+  List<PieChartSectionData> showingSections(data) {
+    return List.generate(
+      data == null ? 0 : data.length,
+
+          (index) {
+            final isTouched = index == touchedIndex;
+            final double fontSize = isTouched ? 25 : 16;
+            final double radius = isTouched ? 60 : 50;
+            if(index==0){
+              print("vault :");
+              print(data['vaultValue']);
+              return PieChartSectionData(
+                color: const Color(0xFFfad502),
+                value: data['vaultValue'],
+                title: '',
+                radius: radius,
+                titleStyle: TextStyle(
+                    fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+              );
+            }else{
+              print("eth :");
+              print(data['ethValue']);
+              return PieChartSectionData(
+                color: const Color(0xff0293ee),
+                value: data['ethValue'],
+                title: '',
+                radius: radius,
+                titleStyle: TextStyle(
+                    fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+              );
+            }
+
+
+      },
+    );
+
+
+
     return List.generate(4, (i) {
       final isTouched = i == touchedIndex;
       final double fontSize = isTouched ? 25 : 16;

@@ -279,13 +279,6 @@ class _MyAppState extends State<MyApp> {
         }
       },
     );
-    // users.then((value) => {
-    //   print("length users : $found"),
-    //   if(found==1){
-    //     return IndexPage(),
-    //   }
-    //   return startScreen(),
-    // });
 
 
   }

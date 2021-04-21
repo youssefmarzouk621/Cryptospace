@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_universe/0. Login/SignupPage.dart';
+import 'package:flutter_universe/0.%20Login/Pincode.dart';
+import 'package:flutter_universe/Controllers/TransactionController.dart';
+import 'package:flutter_universe/Models/Core_User.dart';
+import 'package:flutter_universe/Storage/Usersrepository.dart';
 import 'package:flutter_universe/index.dart';
 import 'package:flutter_universe/0.%20Login/PhraseAuth.dart';
 import 'package:flutter_universe/0. Login/Importblockchain.dart';
@@ -15,7 +20,10 @@ class Createblockchain extends StatefulWidget {
 
 
 class _CreateblockchainState extends State<Createblockchain> {
-  String privatekey = "privatekey";
+  String privatekey = "";
+  String publickey = "";
+  final TransactionController transactionController = TransactionController();
+  Future<CoreUser> _futureUser;
   @override
   Widget build(BuildContext context) {
           return Container(
@@ -87,19 +95,34 @@ class _CreateblockchainState extends State<Createblockchain> {
                               color: Color.fromRGBO(65, 45, 135, 0.3),
                             ),
                             child: Center(
-                              child: Text(
-                                privatekey,
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              child:
+                              FutureBuilder(
+                                future: transactionController.createAccount(),
+                                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                  if(snapshot.data == null){
+                                    return SpinKitDoubleBounce(
+                                      color: Colors.white,
+                                      size: 50.0,
+                                    );
+                                  }else{
+                                    privatekey=snapshot.data['privatekey'];
+                                    publickey=snapshot.data['account'];
+                                    return Text(
+                                      snapshot.data['privatekey'],
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  }
+                                },
+                              )
+
                             ),
                           ),
 
                           SizedBox(height: 35.0),
-
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -142,22 +165,28 @@ class _CreateblockchainState extends State<Createblockchain> {
                                           fontSize: 14,)
                                     ),
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          transitionDuration: Duration(seconds: 1),
-                                          transitionsBuilder: (context, animation, animationTime, child) {
-                                            animation = CurvedAnimation(
-                                                parent: animation, curve: Curves.decelerate);
-                                            return FadeTransition(
-                                              opacity: animation,
-                                              child: child,
-                                            );
-                                          },
-                                          pageBuilder: (context, a, b) => PhraseAuth(),
+                                      _futureUser = UsersRepository.getConnectedUser();
+                                      _futureUser.then((coreUser) => {
+                                        coreUser.publickey=publickey,
+                                        UsersRepository.updateUser(coreUser),
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            transitionDuration: Duration(seconds: 1),
+                                            transitionsBuilder: (context, animation, animationTime, child) {
+                                              animation = CurvedAnimation(
+                                                  parent: animation, curve: Curves.decelerate);
+                                              return FadeTransition(
+                                                opacity: animation,
+                                                child: child,
+                                              );
+                                            },
+                                            pageBuilder: (context, a, b) => Pincode(),
 
+                                          ),
                                         ),
-                                      );
+                                      });
+
                                     },
                                   ),
                                 ),

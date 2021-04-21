@@ -33,10 +33,10 @@ class TransactionController {
     }
   }
 
-  Future<String> getBalance() async{
+  Future<dynamic> getBalance() async{
     CoreUser _futureUser = await UsersRepository.getConnectedUser();
 
-    Response response = await post(
+    Response responseVault = await post(
       Uri.http(baseURL,"api/token/getBalance"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -46,9 +46,72 @@ class TransactionController {
       }),
     );
 
-    var parse = jsonDecode(response.body);
-    return parse["balance"];
+    Response responseEth = await post(
+      Uri.http(baseURL,"api/token/getBalanceInEth"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'account': _futureUser.publickey,
+      }),
+    );
+
+
+    var parseVault = jsonDecode(responseVault.body);
+    var parseEth = jsonDecode(responseEth.body);
+
+
+    var data = {
+      'balanceVault': parseVault['balance'],
+      'balanceEth':parseEth['balanceEth'],
+    };
+
+
+    return data;
   }
+
+  Future<dynamic> getBalances() async{
+    CoreUser _futureUser = await UsersRepository.getConnectedUser();
+
+    Response responseVault = await post(
+      Uri.http(baseURL,"api/token/getBalance"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'account': _futureUser.publickey,
+      }),
+    );
+
+    Response responseEth = await post(
+      Uri.http(baseURL,"api/token/getBalanceInEth"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'account': _futureUser.publickey,
+      }),
+    );
+
+
+    var parseVault = jsonDecode(responseVault.body);
+    var parseEth = jsonDecode(responseEth.body);
+
+    var totalWei= double.parse(parseVault['balanceVaultWei']) + double.parse(parseEth['balanceEthWei']);
+
+
+    var vaultValue=(double.parse(parseVault['balanceVaultWei'])/totalWei)*100;
+    var ethValue=(double.parse(parseEth['balanceEthWei'])/totalWei)*100;
+    var data = {
+      'vaultValue':vaultValue,
+      'ethValue':ethValue
+    };
+
+
+    return data;
+  }
+
+
 
   Future <List<HistoryTransaction>>getTransactions() async{
     CoreUser _futureUser = await UsersRepository.getConnectedUser();
@@ -92,5 +155,19 @@ class TransactionController {
     );
     var parse = jsonDecode(response.body);
     return parse["account"];
+  }
+
+  Future<dynamic> createAccount() async {
+    final response = await post(
+      Uri.http(baseURL,"api/token/createAccount"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+
+      }),
+    );
+    var account = jsonDecode(response.body);
+    return account;
   }
 }

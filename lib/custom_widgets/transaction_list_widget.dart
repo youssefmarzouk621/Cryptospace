@@ -88,7 +88,7 @@ class TransactionListWidget extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15),
-                child: Text(amount+" Vault",
+                child: Text(amount+" "+titleTxt,
                   style: GoogleFonts.openSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

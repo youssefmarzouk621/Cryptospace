@@ -5,8 +5,12 @@ import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-//String baseURL = "10.0.2.2:3000"; //local blockchain
-String baseURL = "192.168.1.46:3000"; //deployed blockchain
+//String baseURL = "192.168.137.54:3000"; //local blockchain
+//String baseURL = "192.168.1.46:3000"; //deployed blockchain
+
+String baseURL = "10.0.2.2:3000"; //morneg blockchain
+
+
 
 Color primaryTextColor = Color(0xFF414C6B);
 Color secondaryTextColor = Color(0xFFBD9098);
