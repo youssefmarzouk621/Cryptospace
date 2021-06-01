@@ -55,6 +55,7 @@ dependencies:
   intl_phone_field: ^1.4.2
   string_validator: ^0.1.4
   local_auth: ^0.6.3+4
+  string_to_hex: ^0.2.1+30
 
 
 dev_dependencies:
@@ -86,6 +87,7 @@ flutter:
     - assets/
     - assets/applogo.png
     - assets/img/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

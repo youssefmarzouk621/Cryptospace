@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //String baseURL = "192.168.1.46:3000"; //deployed blockchain
 
 String baseURL = "10.0.2.2:3000"; //morneg blockchain
+String baseUploadsURL = "http://10.0.2.2:3000";
 
 
 
@@ -29,6 +30,7 @@ class ColorConstants {
   static const gblackColor = Color(0xff242424);
   static const cblackColor = Color(0xFF313131);
   static const corangeColor = Color(0xffdd601e);
+  static const yellowColor = Color(0xFFf9d505);
 }
 
 class Constants {
@@ -70,3 +72,7 @@ class Constants {
     "LiteCoin",
   ];
 }
+
+const kTextColor = Color(0xFFf9d505);
+const kTextLightColor = Colors.white;
+const kDefaultPaddin = 20.0;

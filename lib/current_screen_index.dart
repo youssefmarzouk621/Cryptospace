@@ -5,6 +5,7 @@ import 'package:flutter_universe/1. Home/home_page.dart';
 import 'package:flutter_universe/4. Settings/settings.dart';
 import 'package:flutter_universe/2. Wallet/Wallet.dart';
 import 'package:flutter_universe/3. Exchange/Exchange.dart';
+import 'package:flutter_universe/Rewards/rewards.dart';
 
 
 class CurrentScreenIndex extends StatelessWidget {
@@ -28,7 +29,7 @@ class CurrentScreenIndex extends StatelessWidget {
         break;
       case 2:
         {
-          return Exchange();
+          return Rewards();
         }
         break;
       case 3:
