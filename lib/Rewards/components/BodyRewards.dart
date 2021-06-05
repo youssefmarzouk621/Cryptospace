@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_universe/Controllers/ProductsController.dart';
 import 'package:flutter_universe/Models/Product.dart';
@@ -13,59 +14,11 @@ class BodyRewards extends StatefulWidget {
 
 class _BodyRewardsState extends State<BodyRewards> {
   final ProductsController productsController = ProductsController();
-  List<String> categories = ["Hand bag", "Jewellery", "Footwear", "Dresses", "Dresses", "Dresses", "Dresses"];
+  List<String> categories = [];
+  List<Product> products = [];
+  List<Product> filteredProducts = [];
   int selectedIndex = 0;
 
-  /*List<Product> products = [
-    Product(
-        id: "1",
-        title: "Office Code",
-        price: 234,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.",
-        image: "assets/images/bag_1.png",
-        hexColor: 0xFF3D82AE,
-    ),
-    Product(
-        id: "2",
-        title: "Belt Bag",
-        price: 234,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.",
-        image: "assets/images/bag_2.png",
-        hexColor: 0xFFD3A984,
-    ),
-    Product(
-        id: "3",
-        title: "Hang Top",
-        price: 234,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.",
-        image: "assets/images/bag_3.png",
-        hexColor: 0xFF989493
-    ),
-    Product(
-        id: "4",
-        title: "Old Fashion",
-        price: 234,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.",
-        image: "assets/images/bag_4.png",
-        hexColor: 0xFFE6B398
-    ),
-    Product(
-        id: "5",
-        title: "Office Code",
-        price: 234,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.",
-        image: "assets/images/bag_5.png",
-        hexColor: 0xFFFB7883
-    ),
-    Product(
-      id: "6",
-      title: "Office Code",
-      price: 234,
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.",
-      image: "assets/images/bag_6.png",
-      hexColor: 0xFFAEAEAE,
-    ),
-  ];*/
 
   @override
   Widget build(BuildContext context) {
@@ -101,45 +54,89 @@ class _BodyRewardsState extends State<BodyRewards> {
                     padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
                   child: SizedBox(
                     height: 30,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
-                      itemBuilder: (context, index) =>
+                    child:
 
-                          //categories
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIndex = index;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    categories[index],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: selectedIndex == index ? kTextColor : kTextLightColor,
-                                        fontSize: 18
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
-                                    height: 2,
-                                    width: 30,
-                                    color: selectedIndex == index ? kTextColor : Colors.transparent,
+
+                    FutureBuilder(
+                      future: productsController.getCategories(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if(snapshot.data == null){
+                          return Container(
+                              child: Center(
+                                  child: SpinKitDoubleBounce(
+                                    color: Colors.white,
+                                    size: 50.0,
                                   )
-                                ],
+                              )
+                          );
+                        }else{
+                          categories = snapshot.data;
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) =>
+
+                            //categories
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedIndex = index;
+                                  List<Product> localProducts=[];
+                                  print("selected Category :"+categories[index]);
+                                  if(categories[index]=="All"){
+                                    filteredProducts = products;
+                                    print("All clicked");
+                                  }else{
+                                    print("filtering products filteredProducts before filter");
+                                    print(filteredProducts);
+                                    for (var i = 0; i < filteredProducts.length; i++) {
+                                      if(filteredProducts[i].categoryTitle==categories[index]){
+                                        localProducts.add(filteredProducts[i]);
+                                      }
+                                    }
+
+                                    print("filteredProducts after filter");
+                                    filteredProducts = localProducts;
+                                    print(filteredProducts);
+                                  }
+
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data[index],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: selectedIndex == index ? kTextColor : kTextLightColor,
+                                          fontSize: 18
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
+                                      height: 2,
+                                      width: 30,
+                                      color: selectedIndex == index ? kTextColor : Colors.transparent,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-
-
-
+                          );
+                        }
+                      },
                     ),
+
+
+
+
+
+
+
+
                   ),
                 ),
                 Expanded(
@@ -159,8 +156,11 @@ class _BodyRewardsState extends State<BodyRewards> {
                               )
                           );
                         }else{
+
+                            products = snapshot.data;
+                            filteredProducts = snapshot.data;
                             return GridView.builder(
-                                itemCount: snapshot.data.length,
+                                itemCount: filteredProducts.length,
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: kDefaultPaddin,
@@ -168,9 +168,9 @@ class _BodyRewardsState extends State<BodyRewards> {
                                   childAspectRatio: 0.75,
                                 ),
                                 itemBuilder: (context, index) => ItemCard(
-                                  product: snapshot.data[index],
+                                  product: filteredProducts[index],
                                   press: () =>
-                                      productsController.getProduct(snapshot.data[index].id).then((value) =>
+                                      productsController.getProduct(filteredProducts[index].id).then((value) =>
                                       {
                                         Navigator.push(
                                             context,

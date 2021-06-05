@@ -18,28 +18,18 @@ class ColorAndSize extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Color"),
-              Row(
-                children: <Widget>[
-                  ColorDot(
-                    color: Color(0xFF356C95),
-                    isSelected: true,
-                  ),
-                  ColorDot(color: Color(0xFFF8C078)),
-                  ColorDot(color: Color(0xFFA29B9B)),
-                ],
-              ),
+
             ],
           ),
         ),
+        SizedBox(height: 100),
         Expanded(
           child: RichText(
             text: TextSpan(
               style: TextStyle(color: kTextColor),
               children: [
-                TextSpan(text: "Size\n"),
                 TextSpan(
-                  text: "12 cm",
+                  text: product.vaultPrice.toString()+" Vault",
                   style: Theme.of(context)
                       .textTheme
                       .headline5

@@ -4,7 +4,7 @@ import 'package:flutter_universe/Models/Brand.dart';
 import 'package:flutter_universe/Models/Category.dart';
 
 class Product {
-  final String image, title, description,id,hexColor;
+  final String image, title, description,id,hexColor,categoryTitle;
   final int price,vaultPrice;
   final Categorie category;
   final Brand brand;
@@ -18,7 +18,8 @@ class Product {
     this.description,
     this.hexColor,
     this.category,
-    this.brand
+    this.brand,
+    this.categoryTitle
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -30,6 +31,12 @@ class Product {
       vaultPrice : json['vaultPrice'] as int,
       description: json['description'] as String,
       hexColor: json['hexColor'] as String,
+      categoryTitle:json['category'] as String,
     );
+  }
+
+  @override
+  String toString() {
+    return '$categoryTitle';
   }
 }

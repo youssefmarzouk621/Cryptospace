@@ -1,3 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_universe/4.%20Settings/CirclePage.dart';
+import 'package:flutter_universe/4.%20Settings/FAQPage.dart';
+import 'package:flutter_universe/4.%20Settings/ProfilePage.dart';
 import 'package:flutter_universe/Models/Core_User.dart';
 import 'package:flutter_universe/Storage/Usersrepository.dart';
 import 'package:flutter_universe/Storage/database_creator.dart';
@@ -22,81 +26,172 @@ class _SettingsState extends State<Settings> {
     return new WillPopScope(
         onWillPop: () async => false,
       child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.0, 1.0],
-          colors: [const Color(0xFF543CBA),const Color(0xFF3FA5B1)],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Color(0x00000000),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  top: 35,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Settings',
-                      style: GoogleFonts.spartan(
-                        fontSize: 33,
-                        fontWeight: FontWeight.w700,
-                        color: ColorConstants.kwhiteColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: FlatButton(
-                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                    height: MediaQuery.of(context).size.height/11.0,
-
-                    // splashColor: Colors.red,
-                    color: const Color.fromRGBO(65, 45, 135, 0.7),
-                    // textColor: Colors.white,
-                    child: Text('Logout',
-                        style: TextStyle( fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w300,
-                          color: const Color(0xFFffffff),
-                          fontSize: 19,)
-                    ),
-                    onPressed: () async {
-                      await DatabaseCreator().initDatabase();
-                      Future<List<CoreUser>> users;
-                      users = UsersRepository.getAllUsers();
-                      users.then((value) async => {
-                        await UsersRepository.deleteUser(value.first),
-                        Navigator.popAndPushNamed(context, "/home"),
-                      });
-                    },
-                  )
-                ),
-
-
-                  ],
-                ),
-              ),
-            ],
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 1.0],
+            colors: [const Color(0xFF543CBA),const Color(0xFF3FA5B1)],
           ),
         ),
+        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+        child: ListView(
+          children: [
+            Text(
+              "Settings",
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.person,
+                  color: ColorConstants.yellowColor,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Account",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  ),
+                ),
+              ],
+            ),
+            Divider(
+              height: 15,
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            buildAccountOptionRow(context, "Profile",1),
+            buildAccountOptionRow(context, "Your Circle",2),
+            buildAccountOptionRow(context, "FAQ",3),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.volume_up_outlined,
+                  color: ColorConstants.yellowColor,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Notifications",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Divider(
+              height: 15,
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            buildNotificationOptionRow("New for you", true),
+            buildNotificationOptionRow("Account activity", true),
+            buildNotificationOptionRow("Opportunity", false),
+            SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                onPressed: () {},
+                child: Text("SIGN OUT",
+                    style: TextStyle(
+                        fontSize: 16, letterSpacing: 2.2, color: Colors.white)),
+              ),
+            )
+          ],
+        ),
       ),
-    ),
+    );
+  }
+
+  Row buildNotificationOptionRow(String title, bool isActive) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[600]),
+        ),
+        Transform.scale(
+            scale: 0.7,
+            child: CupertinoSwitch(
+              value: isActive,
+              onChanged: (bool val) {},
+            ))
+      ],
+    );
+  }
+
+  GestureDetector buildAccountOptionRow(BuildContext context, String title,int choice) {
+    return GestureDetector(
+      onTap: () {
+        switch (choice) {
+          case 1:
+            {
+              Navigator.pushNamed(context, '/Profile');
+              break;
+            }
+          case 2:
+            {
+              Navigator.pushNamed(context, '/Circle');
+              break;
+            }
+          case 3:
+            {
+              Navigator.pushNamed(context, '/FAQ');
+              break;
+            }
+          default:
+            {
+              Navigator.pushNamed(context, '/Profile');
+              break;
+            }
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Color(0xDAFFFFFF),
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.grey,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

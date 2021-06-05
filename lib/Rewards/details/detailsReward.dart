@@ -26,15 +26,7 @@ class DetailsReward extends StatelessWidget {
         onPressed: () => Navigator.pop(context),
       ),
       actions: <Widget>[
-        IconButton(
-          icon: Image.asset('assets/images/bag_1.png'),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/bag_1.png'),
-          onPressed: () {},
-        ),
-        SizedBox(width: kDefaultPaddin / 2)
+
       ],
     );
   }

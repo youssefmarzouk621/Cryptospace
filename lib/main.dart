@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_universe/0.%20Login/Createblockchain.dart';
 import 'package:flutter_universe/0.%20Login/Importblockchain.dart';
 import 'package:flutter_universe/0.%20Login/Pincode.dart';
+import 'package:flutter_universe/4.%20Settings/CirclePage.dart';
+import 'package:flutter_universe/4.%20Settings/ProfilePage.dart';
 import 'package:flutter_universe/Storage/database_helper.dart';
 import 'package:flutter_universe/index.dart';
 import 'package:flutter_universe/startScreen.dart';
@@ -12,6 +14,7 @@ import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/0. Login/SigninPage.dart';
 
+import '4. Settings/FAQPage.dart';
 import 'Models/Core_User.dart';
 import 'Storage/Usersrepository.dart';
 import 'Storage/database_creator.dart';
@@ -27,6 +30,9 @@ void main() {
     initialRoute: '/home',
     routes: {
       '/home': (context) => MyApp(),
+      '/Circle': (context) => CirclePage(),
+      '/Profile': (context) => ProfilePage(),
+      '/FAQ': (context) => FAQPage(),
     },
     builder: EasyLoading.init()
 

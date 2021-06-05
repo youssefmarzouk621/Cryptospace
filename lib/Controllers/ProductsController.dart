@@ -15,7 +15,6 @@ class ProductsController {
 
       for(var p in jsonData){
         Product product = Product.fromJson(p);
-        print(product);
         products.add(product);
       }
       return products;
@@ -23,6 +22,24 @@ class ProductsController {
       throw Exception('Request API Failed');
     }
   }
+
+  Future<List<String>>getCategories() async{
+    final response = await get(
+        Uri.http(baseURL,"api/products/getCategories")
+    );
+    if(response.statusCode==200){
+      var jsonData = json.decode(response.body);
+      List<String> categories = [];
+      categories.add("All");
+      for(var c in jsonData){
+        categories.add(c);
+      }
+      return categories;
+    }else{
+      throw Exception('Request API Failed');
+    }
+  }
+
 
   Future<Product>getProduct(String id) async{
     final response = await post(
