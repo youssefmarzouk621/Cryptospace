@@ -9,7 +9,7 @@ class User {
   final String phone;
   final String accessToken;
 
-
+  
   User({
   @required this.id,
   @required this.firstName,
