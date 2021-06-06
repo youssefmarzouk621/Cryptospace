@@ -11,7 +11,7 @@ class AuthentificationController {
 
   Future<String> loginService(String email,String password) async {
     Response res = await post(
-      Uri.http(baseURL,"api/users/login"),
+      Uri.https(baseURL,"api/users/login"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -36,7 +36,6 @@ class AuthentificationController {
   }
 
   void StoreConnectedUser(User connectedUser) async {
-
       await DatabaseCreator().initDatabase();
       int count = await UsersRepository.usersCount();
       final user = CoreUser(count,connectedUser.id ,connectedUser.firstName,connectedUser.lastName,connectedUser.email,connectedUser.password,connectedUser.phone,connectedUser.accessToken,"none","none","none");
@@ -49,7 +48,7 @@ class AuthentificationController {
 
   Future<String> registerService(String firstname,String lastname,String email,String password,String phone) async {
     Response res = await post(
-      Uri.http(baseURL,"api/users/register"),
+      Uri.https(baseURL,"api/users/register"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -71,7 +70,7 @@ class AuthentificationController {
 
   Future<String> verifyAccount(String email) async {
     Response res = await post(
-      Uri.http(baseURL,"api/users/verifyAccount"),
+      Uri.https(baseURL,"api/users/verifyAccount"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_universe/Controllers/ProductsController.dart';
 import 'package:flutter_universe/Models/Product.dart';
-import 'package:flutter_universe/Rewards/details/detailsReward.dart';
+import 'package:flutter_universe/5.Rewards/details/detailsReward.dart';
 import 'package:flutter_universe/staticdata/constants.dart';
 import 'item_card.dart';
 
@@ -54,10 +54,7 @@ class _BodyRewardsState extends State<BodyRewards> {
                     padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
                   child: SizedBox(
                     height: 30,
-                    child:
-
-
-                    FutureBuilder(
+                    child: FutureBuilder(
                       future: productsController.getCategories(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if(snapshot.data == null){
@@ -129,14 +126,6 @@ class _BodyRewardsState extends State<BodyRewards> {
                         }
                       },
                     ),
-
-
-
-
-
-
-
-
                   ),
                 ),
                 Expanded(

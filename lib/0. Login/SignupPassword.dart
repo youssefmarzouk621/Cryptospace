@@ -24,7 +24,7 @@ class _SignupPasswordState  extends State<SignupPassword> with TickerProviderSta
   final AuthentificationController authController = AuthentificationController();
   Future<String> _futureResponse;
 
-  final smtpServer = gmail("lazrakzied@gmail.com", "next-gen");
+  final smtpServer = gmail("help.cryptospace@gmail.com", "cryptospacePIM");
 
   bool _obscureText = true;
 
@@ -94,6 +94,8 @@ class _SignupPasswordState  extends State<SignupPassword> with TickerProviderSta
   Widget build(BuildContext context)  {
 
     sendmail(Message message)async {
+      print("message to send :");
+      print(message);
       try {
         final  sendReport = await send(message, smtpServer);
         print('Message sent: ' + sendReport.toString()); //print if the email is sent
@@ -250,7 +252,7 @@ class _SignupPasswordState  extends State<SignupPassword> with TickerProviderSta
                               onPressed: () {
                                 final bool isValid = EmailValidator.validate(widget.email);
                                 final message = Message()
-                                  ..from = Address("lazrakzied@gmail.com")
+                                  ..from = Address("Cryptospace")
                                   ..recipients.add(widget.email) //recipent email
                                   ..subject = 'Your Activation Key: '+ code //subject of the email
                                   ..text = 'Welcome to CryptoSpace ! \n Here is your account activation code:'+code+'\n This code expires in 60 seconds.'; //body of the email

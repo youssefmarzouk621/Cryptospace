@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_universe/1. Home/home_page.dart';
 import 'package:flutter_universe/4. Settings/settings.dart';
 import 'package:flutter_universe/2. Wallet/Wallet.dart';
-import 'package:flutter_universe/3. Exchange/Exchange.dart';
-import 'package:flutter_universe/Rewards/rewards.dart';
+import 'package:flutter_universe/5.Rewards/rewards.dart';
 
 
 class CurrentScreenIndex extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_universe/Rewards/components/BodyRewards.dart';
+import 'package:flutter_universe/5.Rewards/components/BodyRewards.dart';
 
 class Rewards extends StatelessWidget {
   @override

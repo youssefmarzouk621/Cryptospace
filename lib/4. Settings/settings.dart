@@ -77,43 +77,25 @@ class _SettingsState extends State<Settings> {
             buildAccountOptionRow(context, "Profile",1),
             buildAccountOptionRow(context, "Your Circle",2),
             buildAccountOptionRow(context, "FAQ",3),
+            buildAccountOptionRow(context, "Affiliate",4),
             SizedBox(
-              height: 40,
+              height: 70,
             ),
-            Row(
-              children: [
-                Icon(
-                  Icons.volume_up_outlined,
-                  color: ColorConstants.yellowColor,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Notifications",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Divider(
-              height: 15,
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            buildNotificationOptionRow("New for you", true),
-            buildNotificationOptionRow("Account activity", true),
-            buildNotificationOptionRow("Opportunity", false),
-            SizedBox(
-              height: 50,
-            ),
+
             Center(
               child: OutlineButton(
                 padding: EdgeInsets.symmetric(horizontal: 40),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                onPressed: () {},
+                color: const Color.fromRGBO(65, 45, 135, 0.7),
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                onPressed: () async {
+                  await DatabaseCreator().initDatabase();
+                  Future<List<CoreUser>> users;
+                  users = UsersRepository.getAllUsers();
+                  users.then((value) async => {
+                    await UsersRepository.deleteUser(value.first),
+                    Navigator.popAndPushNamed(context, "/home"),
+                  });
+                },
                 child: Text("SIGN OUT",
                     style: TextStyle(
                         fontSize: 16, letterSpacing: 2.2, color: Colors.white)),
@@ -163,6 +145,11 @@ class _SettingsState extends State<Settings> {
           case 3:
             {
               Navigator.pushNamed(context, '/FAQ');
+              break;
+            }
+          case 4:
+            {
+              Navigator.pushNamed(context, '/Affiliate');
               break;
             }
           default:

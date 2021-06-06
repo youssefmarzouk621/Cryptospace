@@ -30,7 +30,7 @@ AppBar buildAppBar(BuildContext context) {
     backgroundColor: Color(0xFF543CBA),
     elevation: 0,
     leading: IconButton(
-      icon: Image.asset('assets/images/bag_1.png'),
+      icon: Image.asset('assets/images/back.png'),
       onPressed: () => Navigator.pop(context),
     ),
     actions: <Widget>[

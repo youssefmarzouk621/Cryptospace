@@ -166,7 +166,7 @@ class _ImportblockchainState extends State<Importblockchain> {
                               ),
                               onPressed: () {
                                 EasyLoading.init();
-                                if(myController.text.length==64){
+                                if(myController.text.length==64 || myController.text.length==66){
                                   _futureResponse = transactionController.importAccount(myController.text);
 
                                   _futureResponse.then((keyValue) => {

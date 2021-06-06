@@ -6,6 +6,7 @@ import 'package:flutter_universe/0.%20Login/Importblockchain.dart';
 import 'package:flutter_universe/0.%20Login/Pincode.dart';
 import 'package:flutter_universe/4.%20Settings/CirclePage.dart';
 import 'package:flutter_universe/4.%20Settings/ProfilePage.dart';
+import 'package:flutter_universe/6.Affiliate/affiliate.dart';
 import 'package:flutter_universe/Storage/database_helper.dart';
 import 'package:flutter_universe/index.dart';
 import 'package:flutter_universe/startScreen.dart';
@@ -33,6 +34,7 @@ void main() {
       '/Circle': (context) => CirclePage(),
       '/Profile': (context) => ProfilePage(),
       '/FAQ': (context) => FAQPage(),
+      '/Affiliate': (context) => AffiliatePage(),
     },
     builder: EasyLoading.init()
 

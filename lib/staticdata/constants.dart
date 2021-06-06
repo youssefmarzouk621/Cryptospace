@@ -8,9 +8,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //String baseURL = "192.168.137.54:3000"; //local blockchain
 //String baseURL = "192.168.1.46:3000"; //deployed blockchain
 
-String baseURL = "10.0.2.2:3000"; //morneg blockchain
-String baseUploadsURL = "http://10.0.2.2:3000";
+/*String baseURL = "10.0.2.2:3000"; //local
+String baseUploadsURL = "http://10.0.2.2:3000";//local Ressources
+*/
 
+String baseURL = "crypto-space.herokuapp.com"; //deployed
+String baseUploadsURL = "https://crypto-space.herokuapp.com";//deployed ressources
 
 
 Color primaryTextColor = Color(0xFF414C6B);

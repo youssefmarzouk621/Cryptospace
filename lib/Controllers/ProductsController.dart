@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 class ProductsController {
   Future<List<Product>>getProducts() async{
     final response = await get(
-      Uri.http(baseURL,"api/products/")
+      Uri.https(baseURL,"api/products/")
     );
     if(response.statusCode==200){
       var jsonData = json.decode(response.body);
@@ -25,7 +25,7 @@ class ProductsController {
 
   Future<List<String>>getCategories() async{
     final response = await get(
-        Uri.http(baseURL,"api/products/getCategories")
+        Uri.https(baseURL,"api/products/getCategories")
     );
     if(response.statusCode==200){
       var jsonData = json.decode(response.body);
@@ -40,10 +40,9 @@ class ProductsController {
     }
   }
 
-
   Future<Product>getProduct(String id) async{
     final response = await post(
-      Uri.http(baseURL,"api/products/id"),
+      Uri.https(baseURL,"api/products/id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

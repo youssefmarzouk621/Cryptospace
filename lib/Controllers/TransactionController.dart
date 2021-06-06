@@ -13,7 +13,7 @@ class TransactionController {
   Future<int> SendTokenService(String amount,String receiver) async {
     CoreUser _futureUser = await UsersRepository.getConnectedUser();
     Response res = await post(
-      Uri.http(baseURL,"api/token/sendCoin"),
+      Uri.https(baseURL,"api/token/sendCoin"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -35,9 +35,8 @@ class TransactionController {
 
   Future<dynamic> getBalance() async{
     CoreUser _futureUser = await UsersRepository.getConnectedUser();
-
     Response responseVault = await post(
-      Uri.http(baseURL,"api/token/getBalance"),
+      Uri.https(baseURL,"api/token/getBalance"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -47,7 +46,7 @@ class TransactionController {
     );
 
     Response responseEth = await post(
-      Uri.http(baseURL,"api/token/getBalanceInEth"),
+      Uri.https(baseURL,"api/token/getBalanceInEth"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -62,7 +61,7 @@ class TransactionController {
 
 
     var data = {
-      'balanceVault': parseVault['balance'],
+      'balanceVault': parseVault['balanceVaultWei'],
       'balanceEth':parseEth['balanceEth'],
     };
 
@@ -74,7 +73,7 @@ class TransactionController {
     CoreUser _futureUser = await UsersRepository.getConnectedUser();
 
     Response responseVault = await post(
-      Uri.http(baseURL,"api/token/getBalance"),
+      Uri.https(baseURL,"api/token/getBalance"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -82,9 +81,8 @@ class TransactionController {
         'account': _futureUser.publickey,
       }),
     );
-
     Response responseEth = await post(
-      Uri.http(baseURL,"api/token/getBalanceInEth"),
+      Uri.https(baseURL,"api/token/getBalanceInEth"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -111,13 +109,11 @@ class TransactionController {
     return data;
   }
 
-
-
   Future <List<HistoryTransaction>>getTransactions() async{
     CoreUser _futureUser = await UsersRepository.getConnectedUser();
 
     final response = await post(
-      Uri.http(baseURL,"api/token/history"),
+      Uri.https(baseURL,"api/token/history"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -145,7 +141,7 @@ class TransactionController {
 
   Future<String> importAccount(privateKey) async {
     final response = await post(
-      Uri.http(baseURL,"api/token/importAccount"),
+      Uri.https(baseURL,"api/token/importAccount"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -159,7 +155,7 @@ class TransactionController {
 
   Future<dynamic> createAccount() async {
     final response = await post(
-      Uri.http(baseURL,"api/token/createAccount"),
+      Uri.https(baseURL,"api/token/createAccount"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

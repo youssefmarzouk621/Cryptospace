@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_universe/Models/Product.dart';
 import 'package:flutter_universe/staticdata/constants.dart';
-import 'package:flutter_universe/Rewards/details/components/bodyDetails.dart';
+import 'package:flutter_universe/5.Rewards/details/components/bodyDetails.dart';
 
 class DetailsReward extends StatelessWidget {
   final Product product;
@@ -22,12 +22,9 @@ class DetailsReward extends StatelessWidget {
       backgroundColor: Color(int.parse(product.hexColor)),
       elevation: 0,
       leading: IconButton(
-        icon: Image.asset('assets/images/bag_1.png'),
+        icon: Image.asset('assets/images/back.png'),
         onPressed: () => Navigator.pop(context),
       ),
-      actions: <Widget>[
-
-      ],
     );
   }
 }
