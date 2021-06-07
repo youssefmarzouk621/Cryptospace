@@ -18,6 +18,7 @@ L'application présente d'autres utilité tel que le fait d'être un portefeuill
 *consulter son historique de transactions.<br/>
 
 Notre crypto-monnaie est officiellement disponible sur Ropsten Testnet<br/>
+VaultCoin(VLT) Contract : 0x8ee1fa05d440b9bd3b93e4577b67fb638f7a1662<br/>
 
 -le conteneur sur DockerHub :docker push youssefmarzouk/cryptospace:latest<br/>
 -executer l'image docker :docker run -d -p 3000:3000 youssefmarzouk/cryptospace<br/>
