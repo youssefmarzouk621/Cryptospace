@@ -15,18 +15,6 @@ class _AffiliatePageState extends State<AffiliatePage> {
     User(id:"",firstName: "Mehdi",lastName: "Behira",email: "",password: "",accessToken: "",phone: ""),
     User(id:"",firstName: "Salsabil",lastName: "Racil",email: "",password: "",accessToken: "",phone: ""),
     User(id:"",firstName: "Chaima",lastName: "Sebai",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Youssef",lastName: "Marzouk",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Mehdi",lastName: "Behira",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Salsabil",lastName: "Racil",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Chaima",lastName: "Sebai",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Youssef",lastName: "Marzouk",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Mehdi",lastName: "Behira",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Salsabil",lastName: "Racil",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Chaima",lastName: "Sebai",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Youssef",lastName: "Marzouk",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Mehdi",lastName: "Behira",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Salsabil",lastName: "Racil",email: "",password: "",accessToken: "",phone: ""),
-    User(id:"",firstName: "Chaima",lastName: "Sebai",email: "",password: "",accessToken: "",phone: ""),
   ];
 
   int sortColumnIndex;
@@ -82,7 +70,7 @@ class _AffiliatePageState extends State<AffiliatePage> {
                     color: Color(0xDAFFFFFF),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Center(
                   child: FlatButton(
                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
@@ -95,16 +83,18 @@ class _AffiliatePageState extends State<AffiliatePage> {
                           fontSize: 19,)
                     ),
                     onPressed: () {
-
+                      Navigator.pushNamed(context, '/Circle');
                     },
                   )
                 ),
+                SizedBox(height: 10),
                 DataTable(
                   sortAscending: isAscending,
                   sortColumnIndex: sortColumnIndex,
                   columns: getColumns(['Nom et Prenom', 'Flag']),
                   rows: getRows(users),
                 ),
+                SizedBox(height: 300),
               ],
             ),
           ),

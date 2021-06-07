@@ -15,7 +15,8 @@ class SignupPassword extends StatefulWidget {
   final String lastname;
   final String phone;
   final String email;
-  SignupPassword(this.firstname, this.lastname,this.phone,this.email);
+  final String affiliate;
+  SignupPassword(this.firstname, this.lastname,this.phone,this.email,this.affiliate);
   @override
   _SignupPasswordState createState() => _SignupPasswordState();
 }
@@ -95,7 +96,7 @@ class _SignupPasswordState  extends State<SignupPassword> with TickerProviderSta
 
     sendmail(Message message)async {
       print("message to send :");
-      print(message);
+      print(message.text);
       try {
         final  sendReport = await send(message, smtpServer);
         print('Message sent: ' + sendReport.toString()); //print if the email is sent
@@ -252,12 +253,12 @@ class _SignupPasswordState  extends State<SignupPassword> with TickerProviderSta
                               onPressed: () {
                                 final bool isValid = EmailValidator.validate(widget.email);
                                 final message = Message()
-                                  ..from = Address("Cryptospace")
+                                  ..from = Address("help.cryptospace@gmail.com")
                                   ..recipients.add(widget.email) //recipent email
                                   ..subject = 'Your Activation Key: '+ code //subject of the email
                                   ..text = 'Welcome to CryptoSpace ! \n Here is your account activation code:'+code+'\n This code expires in 60 seconds.'; //body of the email
                                 setState(() {
-                                  _futureResponse = authController.registerService(widget.firstname,widget.lastname,widget.email,textController.text,widget.phone);
+                                  _futureResponse = authController.registerService(widget.firstname,widget.lastname,widget.email,textController.text,widget.phone,widget.affiliate);
                                   _futureResponse.then((value) => {
                                     if(value.toString()=="success"){
                                       print('Email is valid? ' + (isValid ? 'yes' : 'no')),

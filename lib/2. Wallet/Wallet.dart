@@ -292,9 +292,7 @@ class _WalletdetailsState extends State<Wallet> {
                               ),
                             ]
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Container(
                           child: FutureBuilder(
                             future: transactionController.getTransactions(),

@@ -159,7 +159,7 @@ class _validationEmailState extends State<validationEmail> {
                   children: [
                     TimeCircularCountdown(
                       unit: CountdownUnit.second,
-                      countdownTotal: 60,
+                      countdownTotal: 300,
                       diameter: 70,
                       onUpdated: (unit, remainingTime) => print('Updated'),
                       onFinished: () => {

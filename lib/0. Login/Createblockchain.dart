@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_universe/0. Login/SignupPage.dart';
 import 'package:flutter_universe/0.%20Login/Pincode.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
 import 'package:flutter_universe/Models/Core_User.dart';
 import 'package:flutter_universe/Storage/Usersrepository.dart';
-import 'package:flutter_universe/index.dart';
-import 'package:flutter_universe/0.%20Login/PhraseAuth.dart';
 import 'package:flutter_universe/0. Login/Importblockchain.dart';
 import 'package:flutter/services.dart';
 
 
 
 class Createblockchain extends StatefulWidget {
+  final String privatekey;
+  final String publickey;
+
+  Createblockchain(this.privatekey, this.publickey);
   @override
   _CreateblockchainState createState() => _CreateblockchainState();
 }
@@ -20,8 +20,7 @@ class Createblockchain extends StatefulWidget {
 
 
 class _CreateblockchainState extends State<Createblockchain> {
-  String privatekey = "";
-  String publickey = "";
+
   final TransactionController transactionController = TransactionController();
   Future<CoreUser> _futureUser;
   @override
@@ -95,28 +94,13 @@ class _CreateblockchainState extends State<Createblockchain> {
                               color: Color.fromRGBO(65, 45, 135, 0.3),
                             ),
                             child: Center(
-                              child:
-                              FutureBuilder(
-                                future: transactionController.createAccount(),
-                                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                  if(snapshot.data == null){
-                                    return SpinKitDoubleBounce(
-                                      color: Colors.white,
-                                      size: 50.0,
-                                    );
-                                  }else{
-                                    privatekey=snapshot.data['privatekey'];
-                                    publickey=snapshot.data['account'];
-                                    return Text(
-                                      snapshot.data['privatekey'],
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    );
-                                  }
-                                },
+                              child: Text(
+                                widget.privatekey,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               )
 
                             ),
@@ -133,7 +117,7 @@ class _CreateblockchainState extends State<Createblockchain> {
                                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                                   onPressed: () => {
                                     setState(() {
-                                      Clipboard.setData(new ClipboardData(text: privatekey));
+                                      Clipboard.setData(new ClipboardData(text: widget.privatekey));
                                     }),
                                   },
 
@@ -167,7 +151,7 @@ class _CreateblockchainState extends State<Createblockchain> {
                                     onPressed: () {
                                       _futureUser = UsersRepository.getConnectedUser();
                                       _futureUser.then((coreUser) => {
-                                        coreUser.publickey=publickey,
+                                        coreUser.publickey=widget.publickey,
                                         UsersRepository.updateUser(coreUser),
                                         Navigator.push(
                                           context,

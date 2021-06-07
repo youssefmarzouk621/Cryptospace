@@ -25,6 +25,7 @@ class _SignupPageState  extends State<SignupPage> with TickerProviderStateMixin 
   final phoneController = TextEditingController();
   final FirstnameController = TextEditingController();
   final LastnameController = TextEditingController();
+  final affiliateController = TextEditingController();
   static final RegExp nameRegExp = RegExp('[a-zA-Z]');
 
   @override
@@ -185,7 +186,6 @@ class _SignupPageState  extends State<SignupPage> with TickerProviderStateMixin 
                     Theme(
                       data: Theme.of(context).copyWith(splashColor: Colors.transparent),
                       child: TextField(
-
                         controller: myController,
                         autofocus: false,
                         style: TextStyle( fontFamily: 'Montserrat',
@@ -215,6 +215,37 @@ class _SignupPageState  extends State<SignupPage> with TickerProviderStateMixin 
                       ),
                     ),
 
+                    SizedBox(height: 15.0),
+                    Theme(
+                      data: Theme.of(context).copyWith(splashColor: Colors.transparent),
+                      child: TextField(
+                        controller: affiliateController,
+                        autofocus: false,
+                        style: TextStyle( fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w300,
+                          color: const Color(0xFFffffff),
+                          fontSize: 16,),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color.fromRGBO(65, 45, 135, 0.3),
+                          hintStyle: TextStyle( fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w300,
+                            color: const Color(0xFFa2c0fc),
+                            fontSize: 16,),
+                          hintText: 'Username',
+                          contentPadding:
+                          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0x00000000)),
+                            borderRadius: BorderRadius.circular(25.7),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0x00000000)),
+                            borderRadius: BorderRadius.circular(25.7),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 15.0),
                     IntlPhoneField(
 
@@ -273,7 +304,7 @@ class _SignupPageState  extends State<SignupPage> with TickerProviderStateMixin 
                               onPressed: () {
                                 final bool isValid = EmailValidator.validate(myController.text);
                                 print('Email is valid? ' + (isValid ? 'yes' : 'no'));
-                                if((isValid == true)&&(connectivity == true)&&(phoneController.text.length>0)&&(isAlpha(FirstnameController.text)== true)&&(isAlpha(LastnameController.text)== true)){
+                                if((isValid == true)&&(connectivity == true)&&(phoneController.text.length>0)&&(affiliateController.text.length>0)&&(isAlpha(FirstnameController.text)== true)&&(isAlpha(LastnameController.text)== true)){
 
                                   print(FirstnameController.text);
                                     print(nameRegExp.hasMatch(FirstnameController.text));
@@ -289,7 +320,7 @@ class _SignupPageState  extends State<SignupPage> with TickerProviderStateMixin 
                                           child: child,
                                         );
                                       },
-                                      pageBuilder: (context, a, b) => SignupPassword(FirstnameController.text,LastnameController.text,phoneController.text,myController.text),
+                                      pageBuilder: (context, a, b) => SignupPassword(FirstnameController.text,LastnameController.text,phoneController.text,myController.text,affiliateController.text),
 
                                     ),
                                   );
@@ -298,7 +329,10 @@ class _SignupPageState  extends State<SignupPage> with TickerProviderStateMixin 
                                   EasyLoading.init();
                                   EasyLoading.showError('Invalid Email.');
                                 }
-
+                                else if (affiliateController.text.length==0){
+                                  EasyLoading.init();
+                                  EasyLoading.showError('Please put your username.');
+                                }
                                 else if (phoneController.text.length==0){
                                   EasyLoading.init();
                                   EasyLoading.showError('Please put your phone number.');

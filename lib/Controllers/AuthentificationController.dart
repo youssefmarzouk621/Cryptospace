@@ -46,7 +46,7 @@ class AuthentificationController {
   }
 
 
-  Future<String> registerService(String firstname,String lastname,String email,String password,String phone) async {
+  Future<String> registerService(String firstname,String lastname,String email,String password,String phone,String username) async {
     Response res = await post(
       Uri.https(baseURL,"api/users/register"),
       headers: <String, String>{

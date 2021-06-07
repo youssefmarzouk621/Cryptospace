@@ -209,23 +209,30 @@ class _ImportblockchainState extends State<Importblockchain> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height/7.1),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
+                      onTap: ()async {
+
+                        dynamic response = await transactionController.createAccount().then((account) =>
+                        {
+                          Navigator.push(
                           context,
                           PageRouteBuilder(
-                            transitionDuration: Duration(seconds: 1),
-                            transitionsBuilder: (context, animation, animationTime, child) {
-                              animation = CurvedAnimation(
-                                  parent: animation, curve: Curves.decelerate);
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
-                            pageBuilder: (context, a, b) => Createblockchain(),
-
+                                transitionDuration: Duration(seconds: 1),
+                                transitionsBuilder: (context, animation, animationTime, child) {
+                                animation = CurvedAnimation(
+                                  parent: animation, curve: Curves.decelerate
+                                );
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              pageBuilder: (context, a, b) => Createblockchain(account["privatekey"],account["account"]),
+                            ),
                           ),
-                        );
+
+                        });
+
+
                       },
                       child:  Text(
                         'Create a new account >',

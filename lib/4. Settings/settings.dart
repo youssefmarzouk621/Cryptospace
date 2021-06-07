@@ -75,9 +75,8 @@ class _SettingsState extends State<Settings> {
               height: 10,
             ),
             buildAccountOptionRow(context, "Profile",1),
-            buildAccountOptionRow(context, "Your Circle",2),
             buildAccountOptionRow(context, "FAQ",3),
-            buildAccountOptionRow(context, "Affiliate",4),
+            buildAccountOptionRow(context, "Your Circle",4),
             SizedBox(
               height: 70,
             ),
@@ -135,11 +134,6 @@ class _SettingsState extends State<Settings> {
           case 1:
             {
               Navigator.pushNamed(context, '/Profile');
-              break;
-            }
-          case 2:
-            {
-              Navigator.pushNamed(context, '/Circle');
               break;
             }
           case 3:

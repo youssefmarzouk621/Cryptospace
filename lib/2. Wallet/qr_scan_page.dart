@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_universe/Controllers/TransactionController.dart';
+import 'package:flutter_universe/Models/Core_User.dart';
+import 'package:flutter_universe/Storage/Usersrepository.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
@@ -20,15 +22,12 @@ Future<String> getClipBoardData() async {
 
 
 class _QRScanPageState extends State<QRScanPage> {
-  // String account = "0xac5342d80471B1fC46E22c691B09dCDd19bE061A"; //local blockchain
-  // String receiver = '0x26d7d9cfABF292915e1E6f45110f24ea9341EF5E';
 
-  String account = "0x6E4F4EB138b3e6b0E08f5f7b0e1AfAB2b0Fef7C7"; //deployed blockchain
   String receiver = '';
 
   final TransactionController transactionController = TransactionController();
   Future<int> _futureResponse;
-
+  Future<CoreUser> _futureUser;
   final amount = TextEditingController();
 
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -271,21 +270,24 @@ class _QRScanPageState extends State<QRScanPage> {
                       fieldsCount: 4,
                       onSubmit: ((String pin) => {
                         EasyLoading.init(),
-                        if(pin=="5555"){
-                          _futureResponse = transactionController.SendTokenService(amount.text,receiver),
-                          _futureResponse.then((val) => {
-                            if(val==-1){
-                              EasyLoading.showError('please try again later'),
-                            }else{
-                              Navigator.of(context).pop(),
-                              EasyLoading.showSuccess('Transaction approved'),
-                            }
-                          })
+                        _futureUser = UsersRepository.getConnectedUser(),
+                        _futureUser.then((coreUser) => {
+                          if(pin==coreUser.pincode){
+                            _futureResponse = transactionController.SendTokenService(amount.text,receiver),
+                            _futureResponse.then((val) => {
+                              if(val==-1){
+                                EasyLoading.showError('please try again later'),
+                              }else{
+                                Navigator.of(context).pop(),
+                                EasyLoading.showSuccess('Transaction approved'),
+                              }
+                            })
 
-                        }else{
-                          EasyLoading.showError('Wrong security code'),
-                          print("wrong pincode")
-                        }
+                          }else{
+                            EasyLoading.showError('Wrong security code'),
+                            print("wrong pincode")
+                          }
+                        })
 
                       }),
                       focusNode: _pinPutFocusNode,
